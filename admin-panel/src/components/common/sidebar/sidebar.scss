@@ -1,0 +1,19 @@
+
+
+.sidebar{
+
+  flex-basis: 15%;
+  .ui.vertical.menu {
+    width:100%;
+    .item{
+      font-size:16px;
+    }
+
+  }
+  .sidebar-menu{
+    height: 95vh;
+    padding-top:2%;
+
+  }
+
+}
