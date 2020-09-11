@@ -1,13 +1,13 @@
 import React from "react";
 import "./panel-body.scss";
 import {CourseList} from "../courses/course-list";
-import {UsersList} from "../users/users-list";
+import {UsersList} from "../users/users-list/users-list";
 import {DegreesList} from "../degrees/degrees-list";
-import {CreateUser} from "../users/create-user";
+import {CreateUser} from "../users/create-user/create-user";
 import {CreateDegree} from "../degrees/create-degree";
 import {CreateCourse} from "../courses/create-course";
-import {MenuOptions} from "../../../root-store";
-import {RootStore} from "../../../root-store";
+import {MenuOptions} from "../../root-store";
+import {RootStore} from "../../root-store";
 import {inject} from "mmlpx";
 import {observer} from "mobx-react";
 

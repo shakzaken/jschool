@@ -2,8 +2,9 @@ import React from "react";
 import {Table} from "semantic-ui-react";
 import {UsersListVm} from "./users-list.vm";
 import {inject} from "mmlpx";
+import {observer} from "mobx-react";
 
-
+@observer
 export class UsersList extends React.Component{
 
 

@@ -3,7 +3,7 @@ import 'semantic-ui-css/semantic.min.css'
 import './App.css';
 import {Navbar} from "./components/common/navbar/navbar";
 import {Sidebar} from "./components/common/sidebar/sidebar";
-import {PanelBody} from "./components/common/panel-body/panel-body";
+import {PanelBody} from "./components/panel-body/panel-body";
 
 function App() {
   return (
