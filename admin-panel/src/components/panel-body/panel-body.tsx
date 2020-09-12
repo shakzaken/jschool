@@ -6,16 +6,22 @@ import {DegreesList} from "../degrees/degrees-list";
 import {CreateUser} from "../users/create-user/create-user";
 import {CreateDegree} from "../degrees/create-degree";
 import {CreateCourse} from "../courses/create-course";
-import {MenuOptions} from "../../root-store";
-import {RootStore} from "../../root-store";
-import {inject} from "mmlpx";
-import {observer} from "mobx-react";
+import {MenuOptions} from "../../store/root-store";
+import {RootStore} from "../../store/root-store";
+import {observer,inject} from "mobx-react";
+import {JMessage} from "../common/Jmessage/j-message";
 
+
+interface PanelBodyProps {
+  rootStore?: RootStore;
+}
+
+
+@inject("rootStore")
 @observer
-export class PanelBody extends React.Component{
+export class PanelBody extends React.Component<PanelBodyProps,{}>{
 
 
-  @inject(RootStore) rootStore:RootStore;
 
   getView(viewName: MenuOptions){
     switch (viewName) {
@@ -32,7 +38,8 @@ export class PanelBody extends React.Component{
   render(){
     return (
       <div className="panel-body">
-        {this.getView(this.rootStore.activeMenu)}
+        <JMessage/>
+        {this.getView(this.props.rootStore.activeMenu)}
       </div>
     );
   }

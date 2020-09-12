@@ -1,11 +1,20 @@
-import {observable,action} from "mobx";
-import {ViewModel} from "mmlpx";
+import {action, observable} from "mobx";
+import {inject, ViewModel} from "mmlpx";
 import axios from "axios";
-import {User} from "../users-list/users-list.vm";
-import {CreateUserDto} from "./create-user-dto";
+import {CreateUserDto} from "../components/users/create-user/create-user-dto";
+import {MessageStore} from "./message-store";
+import {MessageType} from "./message-store";
+
 
 @ViewModel
-export class CreateUserVm {
+export class UsersStore {
+
+
+  private messageStore : MessageStore;
+
+  constructor(messageStore: MessageStore){
+    this.messageStore = messageStore;
+  }
 
 
   @observable
@@ -52,7 +61,8 @@ export class CreateUserVm {
 
 
 
-  async saveUser(){
+  async saveUser(event : any){
+    event.preventDefault();
     const user : CreateUserDto = {
       name : this.name,
       email: this.email,
@@ -65,8 +75,13 @@ export class CreateUserVm {
     //   console.error("Password do not match");
     // }
     console.log("user",user);
-    await axios.post("users",user);
-    this.clearForm();
+    await axios.post("users",user)
+      .catch(() => {
+        this.messageStore.displayMessage("User Creation Failed",MessageType.ERROR);
+      });
+    this.messageStore.displayMessage("User Created Successfully",MessageType.SUCCESS);
+    //this.clearForm();
+
 
   }
 

@@ -14,7 +14,7 @@ export class UsersList extends React.Component{
   usersRows(){
     const usersList = this.vm.users.map((user:any) => {
       return (
-        <Table.Row>
+        <Table.Row key={user.id}>
           <Table.Cell>{user.id}</Table.Cell>
           <Table.Cell>{user.name}</Table.Cell>
           <Table.Cell>{user.email}</Table.Cell>

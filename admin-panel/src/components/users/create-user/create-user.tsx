@@ -1,68 +1,65 @@
 import React from "react";
 import {Button, Form} from "semantic-ui-react";
-import {observer} from "mobx-react";
-import {CreateUserVm} from "./create-user.vm";
-import {inject} from "mmlpx";
+import {observer,inject} from "mobx-react";
+import {RootStore} from "../../../store/root-store";
 
+interface CreateUserProps {
+  rootStore? :RootStore
+}
+
+
+@inject("rootStore")
 @observer
-export class CreateUser extends React.Component{
-
-  @inject(CreateUserVm) vm: CreateUserVm;
+export class CreateUser extends React.Component<CreateUserProps,{}>{
 
 
-  constructor(props: any){
-    super(props);
-    this.setName = this.setName.bind(this);
-    this.setConfirmPassword = this.setConfirmPassword.bind(this);
-    this.setEmail = this.setEmail.bind(this);
-    this.setPassword = this.setPassword.bind(this);
-    this.saveUser = this.saveUser.bind(this);
-  }
-
-  setName(event : any){
-    this.vm.setName(event.target.value);
-  }
-  setEmail(event:any){
-    this.vm.setEmail(event.target.value);
-  }
-  setPassword(event:any){
-    this.vm.setPassword(event.target.value);
-  }
-  setConfirmPassword(event: any){
-    this.vm.setConfirmPassword(event.target.value);
-  }
-  saveUser(event : any){
-    event.preventDefault();
-    this.vm.saveUser();
-  }
 
 
   render(){
-
+    const usersStore = this.props.rootStore.usersStore;
     return (
       <div>
         <h3>Create User</h3>
         <Form>
           <Form.Field>
             <label>Name</label>
-            <input value={this.vm.name} onChange={this.setName}  type="text"/>
+            <input
+              value={usersStore.name}
+              onChange={event => usersStore.setName(event.target.value)}
+              type="text"/>
           </Form.Field>
-
           <Form.Field>
             <label>Email</label>
-            <input value={this.vm.email} onChange={this.setEmail} placeholder="Email" type="text"/>
+            <input
+               value={usersStore.email}
+               onChange={event => usersStore.setEmail(event.target.value)}
+               placeholder="Email"
+               type="text"
+             />
           </Form.Field>
 
           <Form.Field>
             <label>Password</label>
-            <input value={this.vm.password} onChange={this.setPassword} placeholder="Password" type="password"/>
+            <input
+              value={usersStore.password}
+              onChange={event => usersStore.setPassword(event.target.value)}
+              placeholder="Password"
+              type="password"
+            />
           </Form.Field>
           <Form.Field>
             <label>Confirm Password</label>
-            <input value={this.vm.confirmPassword} onChange={this.setConfirmPassword} placeholder="Confirm Password" type="password"/>
+            <input
+              value={usersStore.confirmPassword}
+              onChange={event => usersStore.setConfirmPassword(event.target.value)}
+              placeholder="Confirm Password"
+              type="password"
+            />
           </Form.Field>
-
-          <Button type="submit" onClick={this.saveUser}>Save</Button>
+          <Button
+            type="submit"
+            onClick= {event => usersStore.saveUser(event)}>Save
+          </Button>
         </Form>
       </div>
     );

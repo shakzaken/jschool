@@ -13,7 +13,7 @@ import {AuthGuard} from "./auth.guard";
 @Module({
   imports:[UsersModule,PassportModule.register({defaultStrategy:"jwt"}),JwtModule.register({
     secret:jwtConstants.secret,
-    signOptions: {expiresIn: "24h"}
+    signOptions: {expiresIn: "7d"}
   })],
   providers: [AuthService,AuthGuard],
   exports: [AuthService,AuthGuard,JwtModule],
