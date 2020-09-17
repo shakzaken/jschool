@@ -24,10 +24,18 @@ export class RootStore {
 
 
   constructor(){
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJzaGFrQGdtYWlsLmNvbSIsIm5hbWUiOiJzaGFrIiwiaWF0IjoxNTk5OTM3NDQ5LCJleHAiOjE2MDAwMjM4NDl9.C1gRQJA9G5ZzVC2rtRADiJTRvYTd8ok5SQEfIwB5fLQ";
     const baseUrl = "http://localhost:3000/";
+
     axios.defaults.baseURL = baseUrl;
-    axios.defaults.headers.common['Authorization'] = token;
+
+    const user = {
+      email:"shak@gmail.com",
+      password:"1234"
+    };
+    axios.post("auth/login",user)
+      .then(res => {
+        axios.defaults.headers.common['Authorization'] = res.data.token;
+      });
 
 
     this.messageStore = new MessageStore();

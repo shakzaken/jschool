@@ -4,7 +4,7 @@ import axios from "axios";
 import {CreateUserDto} from "../components/users/create-user/create-user-dto";
 import {MessageStore} from "./message-store";
 import {MessageType} from "./message-store";
-
+import {User} from "../types/types";
 
 @ViewModel
 export class UsersStore {
@@ -15,6 +15,9 @@ export class UsersStore {
   constructor(messageStore: MessageStore){
     this.messageStore = messageStore;
   }
+
+  @observable
+  users: User[] = [];
 
 
   @observable
@@ -51,6 +54,14 @@ export class UsersStore {
     this.confirmPassword = confirmPassword;
   }
 
+
+
+
+  @action.bound
+  setUsers(users: User[]){
+    this.users = users;
+  }
+
   @action.bound
   clearForm(){
     this.setName("");
@@ -69,20 +80,24 @@ export class UsersStore {
       password: this.password
     };
 
-    // if(this.password.trim() === this.confirmPassword.trim()){
-    //   await axios.post("users",user);
-    // }else{
-    //   console.error("Password do not match");
-    // }
-    console.log("user",user);
+    if(this.password.trim() !== this.confirmPassword.trim()){
+      this.messageStore.displayMessage("User Creation Failed",MessageType.ERROR);
+      return;
+    }
     await axios.post("users",user)
       .catch(() => {
         this.messageStore.displayMessage("User Creation Failed",MessageType.ERROR);
       });
     this.messageStore.displayMessage("User Created Successfully",MessageType.SUCCESS);
-    //this.clearForm();
+    this.clearForm();
 
 
+  }
+
+  async fetchUsers(){
+    const res = await axios.get(`users`);
+    const users = res.data;
+    this.setUsers(users);
   }
 
 }

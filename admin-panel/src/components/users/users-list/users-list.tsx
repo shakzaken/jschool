@@ -1,18 +1,26 @@
 import React from "react";
 import {Table} from "semantic-ui-react";
-import {UsersListVm} from "./users-list.vm";
-import {inject} from "mmlpx";
-import {observer} from "mobx-react";
+import {observer, inject} from "mobx-react";
+import {RootStore} from "../../../store/root-store";
 
+interface UsersListProps {
+  rootStore?: RootStore;
+}
+
+@inject("rootStore")
 @observer
-export class UsersList extends React.Component{
+export class UsersList extends React.Component<UsersListProps,{}>{
 
+  usersStore = this.props.rootStore.usersStore;
 
-  @inject(UsersListVm) vm : UsersListVm;
-
+  componentDidMount(){
+    this.usersStore.fetchUsers();
+  }
 
   usersRows(){
-    const usersList = this.vm.users.map((user:any) => {
+
+    const users = this.usersStore.users || [];
+    const usersList = users.map((user:any) => {
       return (
         <Table.Row key={user.id}>
           <Table.Cell>{user.id}</Table.Cell>
