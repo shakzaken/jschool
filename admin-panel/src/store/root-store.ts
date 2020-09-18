@@ -5,6 +5,8 @@ import {UsersStore} from "./users-store";
 import {MenuOptions} from "../types/types";
 import {DegreesStore} from "./degrees-store";
 import {CoursesStore} from "./courses-store";
+import {AuthStore} from "./auth-store";
+
 
 export class RootStore {
 
@@ -17,6 +19,7 @@ export class RootStore {
   messageStore:MessageStore;
   degreesStore :DegreesStore;
   coursesStore : CoursesStore;
+  authStore : AuthStore;
 
   constructor(){
     this.login();
@@ -25,6 +28,7 @@ export class RootStore {
     this.usersStore = new UsersStore(this.messageStore);
     this.degreesStore = new DegreesStore(this.messageStore);
     this.coursesStore = new CoursesStore(this.messageStore);
+    this.authStore = new AuthStore(this.messageStore);
 
   }
 

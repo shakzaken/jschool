@@ -36,8 +36,6 @@ export class CreateCourse extends React.Component<CreateCourseProps,{}>{
               type="text"
             />
           </Form.Field>
-
-
           <Button
             type="submit"
             onClick={event => coursesStore.createCourse(event)}>Save

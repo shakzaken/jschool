@@ -39,3 +39,13 @@ export interface CreateCourseDto {
   name:string;
   description:string;
 }
+
+export interface LoginDto {
+  email:string;
+  password:string;
+}
+
+export  interface  LoginResponse{
+  user: User;
+  token: string;
+}
