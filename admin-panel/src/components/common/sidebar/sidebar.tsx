@@ -2,7 +2,8 @@ import React from "react";
 import {Menu} from "semantic-ui-react";
 import "./sidebar.scss";
 import {observer,inject} from "mobx-react";
-import {MenuOptions, RootStore} from "../../../store/root-store";
+import {RootStore} from "../../../store/root-store";
+import {MenuOptions} from "../../../types/types";
 
 interface SidebarProps {
 

@@ -2,15 +2,9 @@ import {observable,action} from "mobx";
 import axios from "axios";
 import {MessageStore} from "./message-store";
 import {UsersStore} from "./users-store";
-
-export enum MenuOptions {
-  CreateCourse = "CreateCourse",
-  CoursesList = "CoursesList",
-  CreateUser = "CreateUser",
-  UsersList= "UsersList",
-  CreateDegree = "CreateDegree",
-  DegreeList="DegreeList"
-}
+import {MenuOptions} from "../types/types";
+import {DegreesStore} from "./degrees-store";
+import {CoursesStore} from "./courses-store";
 
 export class RootStore {
 
@@ -21,13 +15,25 @@ export class RootStore {
 
   usersStore: UsersStore;
   messageStore:MessageStore;
-
+  degreesStore :DegreesStore;
+  coursesStore : CoursesStore;
 
   constructor(){
+    this.login();
+
+    this.messageStore = new MessageStore();
+    this.usersStore = new UsersStore(this.messageStore);
+    this.degreesStore = new DegreesStore(this.messageStore);
+    this.coursesStore = new CoursesStore(this.messageStore);
+
+  }
+
+
+
+
+  private login(){
     const baseUrl = "http://localhost:3000/";
-
     axios.defaults.baseURL = baseUrl;
-
     const user = {
       email:"shak@gmail.com",
       password:"1234"
@@ -36,12 +42,6 @@ export class RootStore {
       .then(res => {
         axios.defaults.headers.common['Authorization'] = res.data.token;
       });
-
-
-    this.messageStore = new MessageStore();
-    this.usersStore = new UsersStore(this.messageStore);
-
-
   }
 
 

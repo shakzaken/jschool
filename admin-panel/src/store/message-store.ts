@@ -10,27 +10,27 @@ export enum MessageType{
 export class MessageStore {
 
   @observable
-  type : MessageType = MessageType.HIDDEN;
+  public type : MessageType = MessageType.HIDDEN;
 
   @observable
-  content : string = "";
+  public content : string = "";
 
   @observable
-  messageLock: boolean = false;
+  private messageLock: boolean = false;
 
 
   @action.bound
-  setType(type: MessageType){
+  private setType(type: MessageType){
     this.type = type;
   }
 
   @action.bound
-  setContent(content: string){
+  private setContent(content: string){
     this.content = content;
   }
 
   @action.bound
-  setMessageLock(lock : boolean){
+  private setMessageLock(lock : boolean){
     this.messageLock = lock;
   }
 

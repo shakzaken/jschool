@@ -6,10 +6,10 @@ import {DegreesList} from "../degrees/degrees-list";
 import {CreateUser} from "../users/create-user/create-user";
 import {CreateDegree} from "../degrees/create-degree";
 import {CreateCourse} from "../courses/create-course";
-import {MenuOptions} from "../../store/root-store";
 import {RootStore} from "../../store/root-store";
 import {observer,inject} from "mobx-react";
 import {JMessage} from "../common/Jmessage/j-message";
+import {MenuOptions} from "../../types/types";
 
 
 interface PanelBodyProps {
