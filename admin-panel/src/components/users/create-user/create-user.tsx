@@ -26,6 +26,7 @@ export class CreateUser extends React.Component<CreateUserProps,{}>{
             <input
               value={usersStore.name}
               onChange={event => usersStore.setName(event.target.value)}
+              placeholder="Name"
               type="text"/>
           </Form.Field>
           <Form.Field>
@@ -45,6 +46,7 @@ export class CreateUser extends React.Component<CreateUserProps,{}>{
               onChange={event => usersStore.setPassword(event.target.value)}
               placeholder="Password"
               type="password"
+              autoComplete="off"
             />
           </Form.Field>
           <Form.Field>
@@ -54,6 +56,7 @@ export class CreateUser extends React.Component<CreateUserProps,{}>{
               onChange={event => usersStore.setConfirmPassword(event.target.value)}
               placeholder="Confirm Password"
               type="password"
+              autoComplete="off"
             />
           </Form.Field>
           <Button

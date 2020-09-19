@@ -4,9 +4,34 @@
   height: 50px;
   color:white;
   display: flex;
-  align-items: center;
-  justify-content: center;
+
+  display: flex;
 
   .title{
+    flex:5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  .email{
+    flex:1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:100%;
+    font-weight: bold;
+  }
+
+
+  .logout{
+    flex:1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    a{
+      color:white;
+      font-weight: bold;
+    }
   }
 }

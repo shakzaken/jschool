@@ -26,12 +26,15 @@ export class Login extends React.Component<LoginProps,{}>{
       event.preventDefault();
       const authStore = this.props.rootStore.authStore;
       await authStore.login();
-      this.props.history.push("/home");
+      this.props.history.push("/");
     }catch(err){
       console.error("Login failed");
     }
 
   }
+
+
+
 
   render(){
     const authStore = this.props.rootStore.authStore;

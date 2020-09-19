@@ -13,7 +13,8 @@ export class RootStore {
   @observable
   activeMenu: MenuOptions = null;
 
-
+  @observable
+  loading: boolean = true;
 
   usersStore: UsersStore;
   messageStore:MessageStore;
@@ -22,13 +23,16 @@ export class RootStore {
   authStore : AuthStore;
 
   constructor(){
-    this.login();
+    //this.login();
+    const baseUrl = "http://localhost:3000/";
+    axios.defaults.baseURL = baseUrl;
 
     this.messageStore = new MessageStore();
+    this.authStore = new AuthStore(this.messageStore);
     this.usersStore = new UsersStore(this.messageStore);
     this.degreesStore = new DegreesStore(this.messageStore);
     this.coursesStore = new CoursesStore(this.messageStore);
-    this.authStore = new AuthStore(this.messageStore);
+    this.setLoading(false);
 
   }
 
@@ -49,6 +53,10 @@ export class RootStore {
   }
 
 
+  @action.bound
+  setLoading(loading: boolean){
+    this.loading = loading;
+  }
 
   @action.bound
   setActiveMenu(activeMenu: MenuOptions){
