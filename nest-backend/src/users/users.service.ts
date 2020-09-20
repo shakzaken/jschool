@@ -53,6 +53,10 @@ export class UsersService {
     return hash;
   }
 
+  deleteUserById(id:number){
+    return this.usersRepository.deleteUserById(id);
+  }
+
 
 
 }

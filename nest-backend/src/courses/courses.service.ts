@@ -59,4 +59,8 @@ export class CoursesService {
     return result;
   }
 
+  deleteCourseById(id:number){
+    return this.courseRepository.deleteCourseById(id);
+  }
+
 }

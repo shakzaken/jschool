@@ -47,6 +47,11 @@ export class CoursesStore{
   }
 
 
+  @action.bound
+  removeCourse(course:Course){
+    // @ts-ignore
+    this.courses.remove(course);
+  }
 
 
   async fetchCourses(){
@@ -73,6 +78,12 @@ export class CoursesStore{
   }
 
   public async deleteCourse(course:Course){
-    console.log("delete course",course);
+    try{
+      await axios.delete(`courses/${course.id}`);
+      this.removeCourse(course);
+      this.messageStore.displayMessage(`Course deleted successfully`,MessageType.SUCCESS);
+    }catch(err){
+      this.messageStore.displayMessage("Delete Operation Failed",MessageType.ERROR);
+    }
   }
 }

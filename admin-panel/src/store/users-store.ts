@@ -1,10 +1,8 @@
 import {action, observable} from "mobx";
-import {inject, ViewModel} from "mmlpx";
+import {ViewModel} from "mmlpx";
 import axios from "axios";
-import {MessageStore} from "./message-store";
-import {MessageType} from "./message-store";
-import {User} from "../types/types";
-import {CreateUserDto} from "../types/types";
+import {MessageStore, MessageType} from "./message-store";
+import {CreateUserDto, User} from "../types/types";
 
 @ViewModel
 export class UsersStore {
@@ -78,6 +76,12 @@ export class UsersStore {
     this.setConfirmPassword("");
   }
 
+  @action.bound
+  removeUser(user:User){
+    // @ts-ignore
+    this.users.remove(user);
+  }
+
 
 
   async saveUser(event : any){
@@ -109,7 +113,17 @@ export class UsersStore {
   }
 
   async deleteUser(user: User){
-    console.log("delete user ",user.id);
+    try{
+      await axios.delete(`users/${user.id}`);
+      // @ts-ignore
+      this.removeUser(user);
+      this.messageStore.displayMessage(`User ${user.name} deleted successfully`,MessageType.SUCCESS);
+    }catch(err){
+      this.messageStore.displayMessage("Delete operation Failed",MessageType.ERROR);
+    }
   }
+
+
+
 
 }

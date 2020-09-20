@@ -1,4 +1,4 @@
-import {Repository, EntityRepository} from "typeorm";
+import {Repository, EntityRepository, DeleteResult} from "typeorm";
 import {Degree} from "./degree.entity";
 import {CreateDegreeDto} from "./dto/createDegreeDto";
 import {BadRequestException} from "@nestjs/common";
@@ -26,6 +26,15 @@ export class DegreesRepository extends Repository<Degree> {
         throw new BadRequestException("degreeId is invalid");
       }
       return degree;
+  }
+
+  async deleteDegreeById(id:number) : Promise<DeleteResult>{
+    const degree = await this.findOne(id);
+    if(!degree){
+      throw new BadRequestException("Degree id is invalid");
+    }
+    const res = await this.delete(degree);
+    return res;
   }
 
 }

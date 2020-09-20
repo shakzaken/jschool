@@ -59,4 +59,8 @@ export class DegreesService {
     return result;
   }
 
+  async deleteDegreeById(id:number){
+    return this.degreesRepository.deleteDegreeById(id);
+  }
+
 }

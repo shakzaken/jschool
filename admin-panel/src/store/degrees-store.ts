@@ -52,6 +52,12 @@ export class DegreesStore {
     this.degreeEdit = degree;
   }
 
+  @action.bound
+  removeDegree(degree:Degree){
+    //@ts-ignore
+    this.degrees.remove(degree);
+  }
+
 
   async fetchDegrees(){
     try{
@@ -78,7 +84,14 @@ export class DegreesStore {
   }
 
   public async deleteDegree(degree: Degree){
-    console.log("delete degree",degree.id);
+    try{
+      await axios.delete(`degrees/${degree.id}`);
+      this.removeDegree(degree);
+      this.messageStore.displayMessage(`Degree ${degree.name} deleted successfully`,MessageType.SUCCESS);
+
+    }catch(err){
+      this.messageStore.displayMessage("Delete Operation Failed",MessageType.ERROR);
+    }
   }
 
 }

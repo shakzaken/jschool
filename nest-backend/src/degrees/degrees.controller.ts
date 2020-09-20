@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post,UseGuards,Request} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post, UseGuards, Request, Delete} from '@nestjs/common';
 import {DegreesService} from "./degrees.service";
 import {CreateDegreeDto} from "./dto/createDegreeDto";
 import {Degree} from "./degree.entity";
@@ -50,6 +50,11 @@ export class DegreesController {
   @Post("/images")
   createDegreeImage(@Body() createDegreeImageDto: CreateDegreeImageDto){
     return this.degreesService.createDegreeImage(createDegreeImageDto);
+  }
+
+  @Delete("/:id")
+  deleteDegreeById(@Param() param){
+    return this.degreesService.deleteDegreeById(param.id);
   }
 
 
