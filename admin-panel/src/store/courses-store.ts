@@ -2,13 +2,11 @@ import {action, observable} from "mobx";
 import {Course, CreateCourseDto} from "../types/types";
 import {MessageStore, MessageType} from "./message-store";
 import axios, {AxiosResponse} from "axios";
-
+import {CourseEditStore} from "./course-edit-store";
 
 export class CoursesStore{
 
 
-  @observable
-  courseEdit:Course;
 
   @observable
   courses:Course[];
@@ -19,10 +17,13 @@ export class CoursesStore{
   @observable
   description:string;
 
+  courseEditStore:CourseEditStore;
+
   private messageStore: MessageStore;
 
   constructor(messageStore: MessageStore){
     this.messageStore = messageStore;
+    this.courseEditStore = new CourseEditStore();
   }
 
 
@@ -41,10 +42,6 @@ export class CoursesStore{
     this.courses = courses;
   }
 
-  @action.bound
-  setCourseEdit(course: Course){
-    this.courseEdit = course;
-  }
 
 
   @action.bound

@@ -59,3 +59,9 @@ export class CreateUserDto {
   email:string;
   password:string;
 }
+
+export enum CourseEditMenuOptions {
+
+  EditCourse="EditCourse",
+  EditImage="EditImage"
+}

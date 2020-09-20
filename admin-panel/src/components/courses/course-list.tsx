@@ -22,7 +22,7 @@ export class CourseList extends React.Component<CourseListProps,{}>{
   }
 
   onCourseEditSelect(course:Course){
-    this.coursesStore.setCourseEdit(course);
+    this.coursesStore.courseEditStore.setCourse(course);
     this.rootStore.setActiveMenu(MenuOptions.CourseEdit);
   }
 

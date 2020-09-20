@@ -1,8 +1,8 @@
-import React,{Component} from "react";
+import React, {Component} from "react";
 import {RootStore} from "../../store/root-store";
-import {Course} from "../../types/types";
+import {Course, CourseEditMenuOptions} from "../../types/types";
 import {inject, observer} from "mobx-react";
-
+import {Menu} from "semantic-ui-react";
 
 interface CourseEditProps {
   rootStore?:RootStore;
@@ -13,17 +13,33 @@ interface CourseEditProps {
 @observer
 export class CourseEdit extends Component<CourseEditProps> {
 
+  private courseEditStore = this.props.rootStore.coursesStore.courseEditStore;
 
   render(){
-    const coursesStore = this.props.rootStore.coursesStore;
-    const course : Course = coursesStore.courseEdit;
-    return <div>courseEdit , courseId : {course.id}</div>
+    const course : Course = this.courseEditStore.course;
+    return (
+     <div>
+        <h2>Course Edit</h2>
+        <Menu fluid widths={2}>
+          <Menu.Item
+            name="Course Form"
+            onClick={event => this.courseEditStore.setMenuType(CourseEditMenuOptions.EditCourse)}
+            active={this.courseEditStore.menuType === CourseEditMenuOptions.EditCourse}
+          />
+          <Menu.Item
+            name="Course Image"
+            onClick={event => this.courseEditStore.setMenuType(CourseEditMenuOptions.EditImage)}
+            active={this.courseEditStore.menuType === CourseEditMenuOptions.EditImage}
+          />
+
+        </Menu>
+      </div>
+    )
   }
 
 
   componentWillUnmount(){
-    const coursesStore = this.props.rootStore.coursesStore;
-    coursesStore.setCourseEdit(null);
+    this.courseEditStore.setCourse(null);
   }
 
 }
