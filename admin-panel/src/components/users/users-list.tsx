@@ -1,7 +1,8 @@
 import React from "react";
-import {Table} from "semantic-ui-react";
+import {Icon, Table} from "semantic-ui-react";
 import {observer, inject} from "mobx-react";
-import {RootStore} from "../../../store/root-store";
+import {RootStore} from "../../store/root-store";
+import {Course, MenuOptions, User} from "../../types/types";
 
 interface UsersListProps {
   rootStore?: RootStore;
@@ -12,9 +13,15 @@ interface UsersListProps {
 export class UsersList extends React.Component<UsersListProps,{}>{
 
   usersStore = this.props.rootStore.usersStore;
+  rootStore = this.props.rootStore;
 
   componentDidMount(){
     this.usersStore.fetchUsers();
+  }
+
+  onCourseEditSelect(user:User){
+    this.usersStore.setUserEdit(user);
+    this.rootStore.setActiveMenu(MenuOptions.UserEdit);
   }
 
   usersRows(){
@@ -26,6 +33,13 @@ export class UsersList extends React.Component<UsersListProps,{}>{
           <Table.Cell>{user.id}</Table.Cell>
           <Table.Cell>{user.name}</Table.Cell>
           <Table.Cell>{user.email}</Table.Cell>
+          <Table.Cell className="edit-icon">
+            <Icon name="edit"
+                  onClick={(event:any) => this.onCourseEditSelect(user)}/>
+          </Table.Cell>
+          <Table.Cell className="delete-icon">
+            <Icon name="delete" onClick={(event:any) => this.usersStore.deleteUser(user)}/>
+          </Table.Cell>
         </Table.Row>
       );
     });
@@ -45,6 +59,8 @@ export class UsersList extends React.Component<UsersListProps,{}>{
               <Table.HeaderCell>Id</Table.HeaderCell>
               <Table.HeaderCell>Name</Table.HeaderCell>
               <Table.HeaderCell>Email</Table.HeaderCell>
+              <Table.HeaderCell>Edit</Table.HeaderCell>
+              <Table.HeaderCell>Delete</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>

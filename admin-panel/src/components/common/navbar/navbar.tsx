@@ -2,7 +2,6 @@ import React from "react";
 import "./navbar.scss";
 import {inject,observer} from "mobx-react";
 import {RootStore} from "../../../store/root-store";
-import {Button} from "semantic-ui-react";
 
 
 interface NavbarProps {
@@ -22,11 +21,12 @@ export class Navbar extends React.Component<NavbarProps,{}> {
 
 
   render(){
+    const authStore = this.props.rootStore.authStore;
     return (
       <div className="navbar">
         <h3 className="title">Admin Panel</h3>
         <p className="email">{this.renderEmail()}</p>
-        <div className="logout"><a href="#">Logout</a></div>
+        <div className="logout"><a onClick={event => authStore.logout(event)} href="#">Logout</a></div>
       </div>
     )
   }

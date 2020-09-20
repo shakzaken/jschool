@@ -8,10 +8,13 @@ export interface User {
 export enum MenuOptions {
   CreateCourse = "CreateCourse",
   CoursesList = "CoursesList",
+  CourseEdit ="CourseEdit",
   CreateUser = "CreateUser",
   UsersList= "UsersList",
+  UserEdit="UserEdit",
   CreateDegree = "CreateDegree",
-  DegreeList="DegreeList"
+  DegreeList="DegreeList",
+  DegreeEdit="DegreeEdit"
 }
 
 
@@ -48,4 +51,11 @@ export interface LoginDto {
 export  interface  LoginResponse{
   user: User;
   token: string;
+}
+
+export class CreateUserDto {
+
+  name:string;
+  email:string;
+  password:string;
 }

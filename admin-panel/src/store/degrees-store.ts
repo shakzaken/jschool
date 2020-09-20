@@ -13,10 +13,14 @@ export class DegreesStore {
 
 
   @observable
+  degreeEdit: Degree;
+
+  @observable
   name:string;
 
   @observable
   description:string;
+
 
   messageStore : MessageStore;
 
@@ -43,6 +47,11 @@ export class DegreesStore {
     this.description = description;
   }
 
+  @action.bound
+  setDegreeEdit(degree: Degree){
+    this.degreeEdit = degree;
+  }
+
 
   async fetchDegrees(){
     try{
@@ -66,6 +75,10 @@ export class DegreesStore {
     }catch(err){
       this.messageStore.displayMessage("Degree Creation Failed",MessageType.ERROR);
     }
+  }
+
+  public async deleteDegree(degree: Degree){
+    console.log("delete degree",degree.id);
   }
 
 }

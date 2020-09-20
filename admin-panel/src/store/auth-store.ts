@@ -55,7 +55,12 @@ export class AuthStore {
     this.token = token;
   }
 
-
+  public logout(event: any){
+    event.preventDefault();
+    this.setUser(null);
+    this.setToken(null);
+    localStorage.clear();
+  }
 
 
   public async login(){

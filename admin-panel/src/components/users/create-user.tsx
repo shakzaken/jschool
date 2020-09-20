@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Form} from "semantic-ui-react";
 import {observer,inject} from "mobx-react";
-import {RootStore} from "../../../store/root-store";
+import {RootStore} from "../../store/root-store";
 
 interface CreateUserProps {
   rootStore? :RootStore

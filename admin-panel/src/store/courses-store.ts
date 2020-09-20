@@ -8,6 +8,9 @@ export class CoursesStore{
 
 
   @observable
+  courseEdit:Course;
+
+  @observable
   courses:Course[];
 
   @observable
@@ -38,6 +41,13 @@ export class CoursesStore{
     this.courses = courses;
   }
 
+  @action.bound
+  setCourseEdit(course: Course){
+    this.courseEdit = course;
+  }
+
+
+
 
   async fetchCourses(){
     try{
@@ -60,5 +70,9 @@ export class CoursesStore{
     }catch(err){
       this.messageStore.displayMessage("Course Creation Failed",MessageType.ERROR);
     }
+  }
+
+  public async deleteCourse(course:Course){
+    console.log("delete course",course);
   }
 }

@@ -3,3 +3,19 @@
   flex-basis: 85%;
   padding:50px;
 }
+
+
+
+.delete-icon{
+  i{
+    color:red;
+    cursor: pointer;
+
+  }
+}
+
+
+.edit-icon i{
+  cursor: pointer;
+  color: #4478ff;
+}

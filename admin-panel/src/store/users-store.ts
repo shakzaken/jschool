@@ -1,10 +1,10 @@
 import {action, observable} from "mobx";
 import {inject, ViewModel} from "mmlpx";
 import axios from "axios";
-import {CreateUserDto} from "../components/users/create-user/create-user-dto";
 import {MessageStore} from "./message-store";
 import {MessageType} from "./message-store";
 import {User} from "../types/types";
+import {CreateUserDto} from "../types/types";
 
 @ViewModel
 export class UsersStore {
@@ -15,6 +15,9 @@ export class UsersStore {
   constructor(messageStore: MessageStore){
     this.messageStore = messageStore;
   }
+
+  @observable
+  userEdit:User;
 
   @observable
   users: User[] = [];
@@ -52,6 +55,11 @@ export class UsersStore {
   @action.bound
   setConfirmPassword(confirmPassword : string){
     this.confirmPassword = confirmPassword;
+  }
+
+  @action.bound
+  setUserEdit(user:User){
+    this.userEdit = user;
   }
 
 
@@ -98,6 +106,10 @@ export class UsersStore {
     const res = await axios.get(`users`);
     const users = res.data;
     this.setUsers(users);
+  }
+
+  async deleteUser(user: User){
+    console.log("delete user ",user.id);
   }
 
 }

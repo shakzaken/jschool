@@ -1,8 +1,8 @@
 import React from "react";
-import {Table} from "semantic-ui-react";
+import {Icon, Table} from "semantic-ui-react";
 import {observer,inject} from "mobx-react";
 import {RootStore} from "../../store/root-store";
-import {Degree} from "../../types/types";
+import {Course, Degree, MenuOptions} from "../../types/types";
 
 interface DegreesListProps {
   rootStore?: RootStore
@@ -14,10 +14,18 @@ interface DegreesListProps {
 export class DegreesList extends React.Component<DegreesListProps,{}>{
 
   degreesStore = this.props.rootStore.degreesStore;
+  rootStore = this.props.rootStore;
+
 
   componentDidMount(){
     this.degreesStore.fetchDegrees();
   }
+
+  onDegreeEditSelect(degree:Degree){
+    this.degreesStore.setDegreeEdit(degree);
+    this.rootStore.setActiveMenu(MenuOptions.DegreeEdit);
+  }
+
 
   degreesRows(){
 
@@ -28,6 +36,13 @@ export class DegreesList extends React.Component<DegreesListProps,{}>{
           <Table.Cell>{degree.id}</Table.Cell>
           <Table.Cell>{degree.name}</Table.Cell>
           <Table.Cell>{degree.description}</Table.Cell>
+          <Table.Cell className="edit-icon">
+            <Icon name="edit"
+                  onClick={(event:any) => this.onDegreeEditSelect(degree)}/>
+          </Table.Cell>
+          <Table.Cell className="delete-icon">
+            <Icon name="delete" onClick={(event:any) => this.degreesStore.deleteDegree(degree)}/>
+          </Table.Cell>
         </Table.Row>
       );
     });
@@ -47,6 +62,10 @@ export class DegreesList extends React.Component<DegreesListProps,{}>{
               <Table.HeaderCell>Id</Table.HeaderCell>
               <Table.HeaderCell>Name</Table.HeaderCell>
               <Table.HeaderCell>Description</Table.HeaderCell>
+              <Table.HeaderCell>Edit</Table.HeaderCell>
+              <Table.HeaderCell>Delete</Table.HeaderCell>
+
+
             </Table.Row>
           </Table.Header>
           <Table.Body>
