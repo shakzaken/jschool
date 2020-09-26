@@ -14,6 +14,8 @@ import {CourseImage} from "./courses/image/course-image.entity";
 import {DegreeImage} from "./degrees/image/degree-image.entity";
 import {UserImage} from "./users/images/user-image.entity";
 import { AuthModule } from './auth/auth.module';
+import {MulterModule} from "@nestjs/platform-express";
+
 
 @Module({
   imports: [
@@ -32,6 +34,7 @@ import { AuthModule } from './auth/auth.module';
     DegreesModule,
     CoursesModule,
     AuthModule,
+    MulterModule
   ],
   controllers: [AppController],
   providers: [AppService],

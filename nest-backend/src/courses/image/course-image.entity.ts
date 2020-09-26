@@ -1,6 +1,5 @@
-import {Entity, Column, PrimaryGeneratedColumn, ManyToOne} from "typeorm";
+import {Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 import {Course} from "../courses.entity";
-
 
 @Entity()
 export class CourseImage {
@@ -10,8 +9,8 @@ export class CourseImage {
 
   /*TODO temporary */
 
-  @Column()
-  image: string;
+  @Column({type:"mediumblob"})
+  image: Buffer;
 
 
   @ManyToOne(type => Course)

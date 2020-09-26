@@ -6,7 +6,7 @@ import {CourseImage} from "./course-image.entity";
 @EntityRepository(CourseImage)
 export class CourseImageRepository extends Repository<CourseImage>{
 
-  async createCourseImage(course:Course,image:string) : Promise<CourseImage> {
+  async createCourseImage(course:Course,image:Buffer) : Promise<CourseImage> {
 
     const courseImage = new CourseImage();
     courseImage.course = course;

@@ -3,6 +3,8 @@ import {RootStore} from "../../store/root-store";
 import {Course, CourseEditMenuOptions} from "../../types/types";
 import {inject, observer} from "mobx-react";
 import {Menu} from "semantic-ui-react";
+import {CourseEditForm} from "./course-edit-form";
+import {CourseImageEdit} from "./course-image-edit";
 
 interface CourseEditProps {
   rootStore?:RootStore;
@@ -14,6 +16,17 @@ interface CourseEditProps {
 export class CourseEdit extends Component<CourseEditProps> {
 
   private courseEditStore = this.props.rootStore.coursesStore.courseEditStore;
+
+
+  renderEditComponent(){
+    const menuType : CourseEditMenuOptions = this.courseEditStore.menuType;
+
+    switch (menuType) {
+      case CourseEditMenuOptions.EditCourse : return <CourseEditForm/>;
+      case CourseEditMenuOptions.EditImage : return <CourseImageEdit/>;
+    }
+  }
+
 
   render(){
     const course : Course = this.courseEditStore.course;
@@ -33,6 +46,9 @@ export class CourseEdit extends Component<CourseEditProps> {
           />
 
         </Menu>
+        <div>
+          {this.renderEditComponent()}
+        </div>
       </div>
     )
   }

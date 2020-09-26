@@ -23,7 +23,7 @@ export class CoursesStore{
 
   constructor(messageStore: MessageStore){
     this.messageStore = messageStore;
-    this.courseEditStore = new CourseEditStore();
+    this.courseEditStore = new CourseEditStore(this.messageStore);
   }
 
 

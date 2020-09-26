@@ -1,10 +1,22 @@
-import {Controller, Get, Post, Body, Param, UseGuards, Request, Delete} from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  UseGuards,
+  Request,
+  Delete,
+  UseInterceptors,
+  UploadedFiles
+} from '@nestjs/common';
 import {CoursesService} from "./courses.service";
 import {CreateCourseDto} from "./dto/create-course.dto";
 import {Course} from "./courses.entity";
 import {CreateCourseCommentDto} from "./dto/create-course-comment.dto";
 import {CreateCourseImageDto} from "./dto/create-course-image.dto";
 import {AuthGuard} from "../auth/auth.guard";
+import {FileFieldsInterceptor, FileInterceptor, FilesInterceptor} from "@nestjs/platform-express";
 
 
 @UseGuards(AuthGuard)
@@ -38,9 +50,20 @@ export class CoursesController {
     return course;
   }
 
-  @Post("/images")
-  async createCourseImage(@Body() createCourseImage: CreateCourseImageDto){
-    return this.coursesService.createCourseImage(createCourseImage);
+  @Post("/images/:courseId")
+  @UseInterceptors(FilesInterceptor('files'))
+  async createCourseImage(@UploadedFiles() files,@Param() param){
+
+    console.log(param.courseId);
+    const courseId : number = parseInt(param.courseId);
+    console.log(courseId);
+    console.log(files[0].buffer);
+    const image : Buffer = files[0].buffer;
+    const createCourseImage : CreateCourseImageDto = {
+      image,courseId
+    };
+    await this.coursesService.createCourseImage(createCourseImage);
+    return "ok";
   }
 
 
