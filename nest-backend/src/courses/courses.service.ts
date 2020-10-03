@@ -48,12 +48,16 @@ export class CoursesService {
     return courseComment;
   }
 
-  async getCourseImagesById(courseId:number) : Promise<CourseImage[]>{
-    return this.courseImageRepository.getCourseImagesById(courseId);
+  async getImagesByCourseId(courseId:number) : Promise<CourseImage>{
+    return this.courseImageRepository.getImageByCourseId(courseId);
   }
 
   async createCourseImage(createCourseImageDto:CreateCourseImageDto) : Promise<CourseImage>{
     const { courseId,image } = createCourseImageDto;
+    const courseImages = await this.courseImageRepository.getImagesByCourseId(courseId);
+    if(courseImages.length > 0){
+      await this.courseImageRepository.deleteCourseImages(courseImages);
+    }
     const course : Course = await this.courseRepository.getCourseById(courseId);
     const result = await this.courseImageRepository.createCourseImage(course,image);
     return result;

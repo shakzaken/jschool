@@ -33,6 +33,7 @@ export class CourseEdit extends Component<CourseEditProps> {
     return (
      <div>
         <h2>Course Edit</h2>
+        <h4>Name:  {course.name}</h4>
         <Menu fluid widths={2}>
           <Menu.Item
             name="Course Form"

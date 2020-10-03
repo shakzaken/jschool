@@ -8,7 +8,9 @@ import {
   Request,
   Delete,
   UseInterceptors,
-  UploadedFiles
+  Header,
+  UploadedFiles,
+
 } from '@nestjs/common';
 import {CoursesService} from "./courses.service";
 import {CreateCourseDto} from "./dto/create-course.dto";
@@ -17,6 +19,7 @@ import {CreateCourseCommentDto} from "./dto/create-course-comment.dto";
 import {CreateCourseImageDto} from "./dto/create-course-image.dto";
 import {AuthGuard} from "../auth/auth.guard";
 import {FileFieldsInterceptor, FileInterceptor, FilesInterceptor} from "@nestjs/platform-express";
+import {CourseImage} from "./image/course-image.entity";
 
 
 @UseGuards(AuthGuard)
@@ -39,8 +42,9 @@ export class CoursesController {
   }
 
   @Get("/images/:courseId")
-  async getCourseImagesById(@Param() params){
-    return this.coursesService.getCourseImagesById(params.courseId);
+  async getImagesByCourseId(@Param() params){
+    const courseImage : CourseImage = await this.coursesService.getImagesByCourseId(params.courseId);
+    return courseImage;
   }
 
 
@@ -54,16 +58,15 @@ export class CoursesController {
   @UseInterceptors(FilesInterceptor('files'))
   async createCourseImage(@UploadedFiles() files,@Param() param){
 
-    console.log(param.courseId);
     const courseId : number = parseInt(param.courseId);
-    console.log(courseId);
-    console.log(files[0].buffer);
-    const image : Buffer = files[0].buffer;
+    const buffer : Buffer = files[0].buffer;
+    const bufferString : string = buffer.toString("base64");
     const createCourseImage : CreateCourseImageDto = {
-      image,courseId
+      image:bufferString,courseId
     };
-    await this.coursesService.createCourseImage(createCourseImage);
-    return "ok";
+    const res = await this.coursesService.createCourseImage(createCourseImage);
+
+    return res;
   }
 
 

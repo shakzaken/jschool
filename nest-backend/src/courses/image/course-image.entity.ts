@@ -9,8 +9,8 @@ export class CourseImage {
 
   /*TODO temporary */
 
-  @Column({type:"mediumblob"})
-  image: Buffer;
+  @Column("mediumtext")
+  image: string;
 
 
   @ManyToOne(type => Course)
