@@ -21,6 +21,10 @@ export class DegreeImageRepository extends Repository<DegreeImage> {
     return result;
   }
 
+  async deleteDegreeImage(degreeImage: DegreeImage[]){
+    return this.remove(degreeImage);
+  }
+
 
 
 }

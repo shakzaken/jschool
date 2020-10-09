@@ -1,9 +1,9 @@
-import {Course, CourseEditMenuOptions} from "../types/types";
+import {Degree, DegreeEditMenuOptions} from "../types/types";
 import {action, computed, observable} from "mobx";
 import axios, {AxiosRequestConfig} from "axios";
 import {MessageStore, MessageType} from "./message-store";
 
-export class CourseEditStore {
+export class DegreeEditStore{
 
 
 
@@ -12,10 +12,10 @@ export class CourseEditStore {
   }
 
   @observable
-  course: Course;
+  degree: Degree;
 
   @observable
-  menuType: CourseEditMenuOptions = CourseEditMenuOptions.EditCourse;
+  menuType: DegreeEditMenuOptions = DegreeEditMenuOptions.EditDegree;
 
   @observable
   imageBuffer: any[];
@@ -24,22 +24,22 @@ export class CourseEditStore {
   imageSrc:string = "";
 
   @action.bound
-  setCourse(course:Course){
-    this.course = course;
+  setDegree(degree:Degree){
+    this.degree = degree;
   }
 
   @action.bound
   setName(name:string){
-    this.course.name = name;
+    this.degree.name = name;
   }
 
   @action.bound
   setDescription(description:string){
-    this.course.description = description;
+    this.degree.description = description;
   }
 
   @action.bound
-  setMenuType(type :CourseEditMenuOptions){
+  setMenuType(type :DegreeEditMenuOptions){
     this.menuType = type;
   }
 
@@ -65,7 +65,7 @@ export class CourseEditStore {
 
 
 
-  async saveCourseFiles(files:File[]){
+  async saveDegreeFiles(files:File[]){
 
     const formData: FormData = new FormData();
     const config : AxiosRequestConfig = {
@@ -76,36 +76,36 @@ export class CourseEditStore {
     }
 
     try{
-      const result = await axios.post(`courses/images/${this.course.id}`,formData,config);
+      const result = await axios.post(`degrees/images/${this.degree.id}`,formData,config);
       const imageData = result.data;
       this.setImageSrc(`data:image/png;base64,${imageData.image}`);
-      this.messageStore.displayMessage("Course Images Saved successfully",MessageType.SUCCESS);
+      this.messageStore.displayMessage("Degree Images Saved successfully",MessageType.SUCCESS);
     }catch (err) {
       this.messageStore.displayMessage("Saving Images Operation Failed",MessageType.ERROR);
     }
   }
 
-  async fetchCourseImage(){
-    const courseId = this.course && this.course.id;
-    const result = await axios.get(`courses/images/${courseId}`);
-    const imageData = result.data;
+  async fetchDegreeImage(){
+    const degreeId = this.degree && this.degree.id;
+    const result = await axios.get(`degrees/images/${degreeId}`);
+    const imageData = result.data[0];
     this.setImageSrc(`data:image/png;base64,${imageData.image}`)
   }
 
 
-  async updateCourse(event:any){
+  async updateDegree(event:any){
     event.preventDefault();
-    const course :Course = {
-      id: this.course.id,
-      name: this.course.name,
-      description: this.course.description
+    const degree :Degree = {
+      id: this.degree.id,
+      name: this.degree.name,
+      description: this.degree.description
     };
     try{
-      await axios.put("courses",course);
-      this.messageStore.displayMessage("Course Updated successfully",MessageType.SUCCESS);
+      await axios.put("degrees",degree);
+      this.messageStore.displayMessage("Degree Updated successfully",MessageType.SUCCESS);
 
     }catch(err){
-      this.messageStore.displayMessage("Course Update Failed",MessageType.ERROR);
+      this.messageStore.displayMessage("Degree Update Failed",MessageType.ERROR);
 
     }
 

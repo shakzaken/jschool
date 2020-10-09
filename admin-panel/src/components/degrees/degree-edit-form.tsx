@@ -4,18 +4,18 @@ import {inject,observer} from "mobx-react";
 import {RootStore} from "../../store/root-store";
 
 
-interface CourseEditFormProps {
+interface DegreeEditFormProps {
   rootStore?:RootStore;
 }
 
 @inject("rootStore")
 @observer
-export class CourseEditForm extends React.Component<CourseEditFormProps,{}> {
+export class DegreeEditForm extends React.Component<DegreeEditFormProps,{}> {
 
 
   render() {
-    const coursesEditStore = this.props.rootStore.coursesStore.courseEditStore;
-    const course = coursesEditStore.course;
+    const degreesEditStore = this.props.rootStore.degreesStore.degreeEditStore;
+    const degree = degreesEditStore.degree;
     return (
       <div>
         <h3>Edit Course Form</h3>
@@ -23,23 +23,23 @@ export class CourseEditForm extends React.Component<CourseEditFormProps,{}> {
           <Form.Field>
             <label>Name</label>
             <input
-              value={course.name}
-              onChange={event => coursesEditStore.setName(event.target.value)}
+              value={degree.name}
+              onChange={event => degreesEditStore.setName(event.target.value)}
               placeholder="Name"
               type="text"/>
           </Form.Field>
           <Form.Field>
             <label>Description</label>
             <input
-              value={course.description}
-              onChange={event => coursesEditStore.setDescription(event.target.value)}
+              value={degree.description}
+              onChange={event => degreesEditStore.setDescription(event.target.value)}
               placeholder="Description"
               type="text"
             />
           </Form.Field>
           <Button
             type="submit"
-            onClick={event => coursesEditStore.updateCourse(event)}>Save
+            onClick={event => degreesEditStore.updateDegree(event)}>Save
           </Button>
         </Form>
       </div>

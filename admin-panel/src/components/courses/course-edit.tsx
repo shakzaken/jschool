@@ -32,8 +32,7 @@ export class CourseEdit extends Component<CourseEditProps> {
     const course : Course = this.courseEditStore.course;
     return (
      <div>
-        <h2>Course Edit</h2>
-        <h4>Name:  {course.name}</h4>
+        <h2>{course.name}</h2>
         <Menu fluid widths={2}>
           <Menu.Item
             name="Course Form"

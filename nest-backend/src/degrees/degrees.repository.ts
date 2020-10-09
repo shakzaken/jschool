@@ -2,6 +2,7 @@ import {Repository, EntityRepository, DeleteResult} from "typeorm";
 import {Degree} from "./degree.entity";
 import {CreateDegreeDto} from "./dto/createDegreeDto";
 import {BadRequestException} from "@nestjs/common";
+import {UpdateDegreeDto} from "./dto/update-degree-dto";
 
 
 @EntityRepository(Degree)
@@ -35,6 +36,13 @@ export class DegreesRepository extends Repository<Degree> {
     }
     const res = await this.delete(degree);
     return res;
+  }
+
+  async updateDegree(updateDegreeDto: UpdateDegreeDto) : Promise<Degree>{
+    const degree = await this.getDegreeById(updateDegreeDto.id);
+    degree.name = updateDegreeDto.name;
+    degree.description = updateDegreeDto.description;
+    return this.save(degree);
   }
 
 }

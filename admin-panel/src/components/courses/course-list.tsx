@@ -22,7 +22,12 @@ export class CourseList extends React.Component<CourseListProps,{}>{
   }
 
   onCourseEditSelect(course:Course){
-    this.coursesStore.courseEditStore.setCourse(course);
+    const clonedCourse:Course = {
+      id: course.id,
+      name:course.name,
+      description: course.description
+    };
+    this.coursesStore.courseEditStore.setCourse(clonedCourse);
     this.rootStore.setActiveMenu(MenuOptions.CourseEdit);
   }
 

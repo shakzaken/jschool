@@ -2,11 +2,13 @@ import {CreateDegreeDto, Degree} from "../types/types";
 import {action, observable} from "mobx";
 import {MessageStore, MessageType} from "./message-store";
 import axios, {AxiosResponse} from "axios";
+import {DegreeEditStore} from "./degree-edit-store";
 
 export class DegreesStore {
 
 
 
+  degreeEditStore: DegreeEditStore;
 
   @observable
   degrees:Degree[];
@@ -26,9 +28,8 @@ export class DegreesStore {
 
   constructor(messageStore : MessageStore){
     this.messageStore = messageStore;
+    this.degreeEditStore = new DegreeEditStore(messageStore);
   }
-
-
 
 
 

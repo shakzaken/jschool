@@ -22,7 +22,12 @@ export class DegreesList extends React.Component<DegreesListProps,{}>{
   }
 
   onDegreeEditSelect(degree:Degree){
-    this.degreesStore.setDegreeEdit(degree);
+    const clonedDegree:Degree = {
+      id: degree.id,
+      name:degree.name,
+      description: degree.description
+    };
+    this.degreesStore.degreeEditStore.setDegree(clonedDegree);
     this.rootStore.setActiveMenu(MenuOptions.DegreeEdit);
   }
 

@@ -10,6 +10,7 @@ import {CourseCommentsRepository} from "./comment/course-comments.repository";
 import {CourseImageRepository} from "./image/course-image.repository";
 import {CourseImage} from "./image/course-image.entity";
 import {CreateCourseImageDto} from "./dto/create-course-image.dto";
+import {UpdateCourseDto} from "./dto/update-course-dto";
 
 @Injectable()
 export class CoursesService {
@@ -61,6 +62,10 @@ export class CoursesService {
     const course : Course = await this.courseRepository.getCourseById(courseId);
     const result = await this.courseImageRepository.createCourseImage(course,image);
     return result;
+  }
+
+  async updateCourse(course:UpdateCourseDto){
+    return this.courseRepository.updateCourse(course);
   }
 
   deleteCourseById(id:number){

@@ -9,6 +9,7 @@ import {DegreeComment} from "./comment/degree-comment.entity";
 import {DegreeImage} from "./image/degree-image.entity";
 import {DegreeImageRepository} from "./image/degree-image.repository";
 import {CreateDegreeImageDto} from "./dto/create-degree-image.dto";
+import {UpdateDegreeDto} from "./dto/update-degree-dto";
 
 
 @Injectable()
@@ -55,12 +56,22 @@ export class DegreesService {
   async createDegreeImage(createDegreeImageDto : CreateDegreeImageDto) : Promise<DegreeImage>{
     const {degreeId,image} = createDegreeImageDto;
     const degree = await this.degreesRepository.getDegreeById(degreeId);
+
+    const degreeImages = await this.degreeImageRepository.getDegreeImagesById(degreeId);
+    if(degreeImages.length > 0){
+      await this.degreeImageRepository.deleteDegreeImage(degreeImages);
+    }
+
     const result = await this.degreeImageRepository.createDegreeImage(degree,image);
     return result;
   }
 
   async deleteDegreeById(id:number){
     return this.degreesRepository.deleteDegreeById(id);
+  }
+
+  async updateDegree(updateDegreeDto: UpdateDegreeDto){
+    return this.degreesRepository.updateDegree(updateDegreeDto);
   }
 
 }

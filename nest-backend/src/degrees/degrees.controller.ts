@@ -1,10 +1,24 @@
-import {Body, Controller, Get, Param, Post, UseGuards, Request, Delete} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+  Request,
+  Delete,
+  UseInterceptors,
+  UploadedFiles, Put
+} from '@nestjs/common';
 import {DegreesService} from "./degrees.service";
 import {CreateDegreeDto} from "./dto/createDegreeDto";
 import {Degree} from "./degree.entity";
 import {CreateDegreeCommentDto} from "./dto/create-degree-comment.dto";
 import {CreateDegreeImageDto} from "./dto/create-degree-image.dto";
 import {AuthGuard} from "../auth/auth.guard";
+import {FilesInterceptor} from "@nestjs/platform-express";
+import {CreateCourseImageDto} from "../courses/dto/create-course-image.dto";
+import {UpdateDegreeDto} from "./dto/update-degree-dto";
 
 
 @UseGuards(AuthGuard)
@@ -32,6 +46,26 @@ export class DegreesController {
   }
 
 
+  @Post("/images/:degreeId")
+  @UseInterceptors(FilesInterceptor('files'))
+  async createCourseImage(@UploadedFiles() files,@Param() param){
+
+    const degreeId : number = parseInt(param.degreeId);
+    const buffer : Buffer = files[0].buffer;
+    const bufferString : string = buffer.toString("base64");
+    const createDegreeImageDto : CreateDegreeImageDto = {
+      image:bufferString,degreeId
+    };
+    const res = await this.degreesService.createDegreeImage(createDegreeImageDto);
+
+    return res;
+  }
+
+
+  @Put()
+  updateDegree(@Body() updateDegreeDto: UpdateDegreeDto){
+    return this.degreesService.updateDegree(updateDegreeDto);
+  }
 
   @Post()
   createDegree(

@@ -7,7 +7,7 @@ export class DegreeImage{
   @PrimaryGeneratedColumn()
   id:number;
 
-  @Column()
+  @Column("mediumtext")
   image:string;
 
   @Column()

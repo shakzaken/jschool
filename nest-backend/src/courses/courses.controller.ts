@@ -9,7 +9,7 @@ import {
   Delete,
   UseInterceptors,
   Header,
-  UploadedFiles,
+  UploadedFiles, Put,
 
 } from '@nestjs/common';
 import {CoursesService} from "./courses.service";
@@ -20,6 +20,7 @@ import {CreateCourseImageDto} from "./dto/create-course-image.dto";
 import {AuthGuard} from "../auth/auth.guard";
 import {FileFieldsInterceptor, FileInterceptor, FilesInterceptor} from "@nestjs/platform-express";
 import {CourseImage} from "./image/course-image.entity";
+import {UpdateCourseDto} from "./dto/update-course-dto";
 
 
 @UseGuards(AuthGuard)
@@ -45,6 +46,12 @@ export class CoursesController {
   async getImagesByCourseId(@Param() params){
     const courseImage : CourseImage = await this.coursesService.getImagesByCourseId(params.courseId);
     return courseImage;
+  }
+
+  @Put()
+  async updateCourse(@Body() updateCourseDto: UpdateCourseDto){
+    const course = await this.coursesService.updateCourse(updateCourseDto);
+    return course;
   }
 
 

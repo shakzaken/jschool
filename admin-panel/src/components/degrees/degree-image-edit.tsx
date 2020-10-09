@@ -1,12 +1,12 @@
 import React from "react";
 import 'react-dropzone-uploader/dist/styles.css';
 import Dropzone,{IDropzoneProps,IFileWithMeta,StatusValue} from "react-dropzone-uploader";
-import "./course-image.scss";
+import "./degree-image.scss";
 import {inject,observer} from "mobx-react";
 import {RootStore} from "../../store/root-store";
 import {Image} from "semantic-ui-react";
 
-interface CourseImageEditProps {
+interface DegreeImageEditProps {
   rootStore?:RootStore
 }
 
@@ -14,9 +14,9 @@ interface CourseImageEditProps {
 
 @inject("rootStore")
 @observer
-export class CourseImageEdit extends React.Component<CourseImageEditProps> {
+export class DegreeImageEdit extends React.Component<DegreeImageEditProps> {
 
-  courseEditStore = this.props.rootStore.coursesStore.courseEditStore;
+  degreeEditStore = this.props.rootStore.degreesStore.degreeEditStore;
 
   constructor(props:any){
     super(props);
@@ -25,28 +25,28 @@ export class CourseImageEdit extends React.Component<CourseImageEditProps> {
 
   async handleSubmit(ifiles: IFileWithMeta[], allFiles: IFileWithMeta[]){
     const files = ifiles.map(ifile => ifile.file);
-    await this.courseEditStore.saveCourseFiles(files);
+    await this.degreeEditStore.saveDegreeFiles(files);
     allFiles.forEach(f => f.remove());
   };
 
 
 
   componentDidMount(){
-    this.courseEditStore.fetchCourseImage();
+    this.degreeEditStore.fetchDegreeImage();
   }
 
 
   render(){
     return (
-    <div className="course-image-container">
-      <h3>Edit Course Image</h3>
-      <div className="course-image">
+    <div className="degree-image-container">
+      <h3>Edit Degree Image</h3>
+      <div className="degree-image">
         <div className="dropzone">
           <Dropzone
             onSubmit={this.handleSubmit}
             maxFiles={1}
             inputContent="Drop 3 Files"
-            submitButtonContent={this.courseEditStore.submitButtonName}
+            submitButtonContent={this.degreeEditStore.submitButtonName}
             inputWithFilesContent={files => `${3 - files.length} more`}
             submitButtonDisabled={files => files.length < 1}
           />
@@ -54,7 +54,7 @@ export class CourseImageEdit extends React.Component<CourseImageEditProps> {
 
         <div className="image">
           <h4 className="image-title">Current Image</h4>
-          <Image size="medium" src={this.courseEditStore.imageSrc} bordered centered />
+          <Image size="medium" src={this.degreeEditStore.imageSrc} bordered centered />
         </div>
       </div>
 

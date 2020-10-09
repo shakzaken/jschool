@@ -65,3 +65,9 @@ export enum CourseEditMenuOptions {
   EditCourse="EditCourse",
   EditImage="EditImage"
 }
+
+export enum DegreeEditMenuOptions {
+
+  EditDegree="EditDegree",
+  EditImage="EditImage"
+}
