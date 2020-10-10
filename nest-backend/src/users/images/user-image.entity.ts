@@ -9,7 +9,7 @@ export class UserImage{
   @PrimaryGeneratedColumn()
   id:number;
 
-  @Column()
+  @Column("mediumtext")
   image:string;
 
   @Column()

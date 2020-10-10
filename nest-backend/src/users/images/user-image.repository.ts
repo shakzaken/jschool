@@ -19,4 +19,8 @@ export class UserImageRepository extends Repository<UserImage>{
     return result;
   }
 
+  async deleteUserImages(userImages: UserImage[]){
+    return this.remove(userImages);
+  }
+
 }

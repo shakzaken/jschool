@@ -4,6 +4,7 @@ import {User} from "./user.entity";
 import {CreateUserDto} from "./dto/create-user-dto";
 import bcrypt from "bcrypt";
 import {BadRequestException} from "@nestjs/common";
+import {UpdateUserDto} from "./dto/update-user-dto";
 
 
 @EntityRepository(User)
@@ -48,6 +49,14 @@ export class UsersRepository extends Repository<User> {
     }
     const res : DeleteResult= await this.delete(id);
     return res;
+  }
+
+  async updateUser(updateUserDto:UpdateUserDto) : Promise<User>{
+    const { id,name,email } = updateUserDto;
+    const user = await this.getUserById(id);
+    user.name = name;
+    user.email = email;
+    return this.save(user);
   }
 
 }

@@ -7,6 +7,7 @@ import {CreateUserImageDto} from "./dto/createUserImage.dto";
 import {UserImage} from "./images/user-image.entity";
 import {User} from "./user.entity";
 import * as bcrypt from "bcrypt";
+import {UpdateUserDto} from "./dto/update-user-dto";
 
 
 
@@ -34,8 +35,16 @@ export class UsersService {
     return this.usersRepository.createUser(createUserDto);
   }
 
+  async updateUser(updateUserDto: UpdateUserDto){
+    return this.usersRepository.updateUser(updateUserDto);
+  }
+
   async createUserImage(createUserImageDto:CreateUserImageDto) : Promise<UserImage>{
     const {userId,image} = createUserImageDto;
+    const userImages = await this.userImageRepository.getUserImagesById(userId);
+    if(userImages.length > 0){
+      await this.userImageRepository.deleteUserImages(userImages);
+    }
     const user = await this.usersRepository.getUserById(userId);
     const result = await this.userImageRepository.createUserImage(user,image);
     return result;

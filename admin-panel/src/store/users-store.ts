@@ -3,15 +3,18 @@ import {ViewModel} from "mmlpx";
 import axios from "axios";
 import {MessageStore, MessageType} from "./message-store";
 import {CreateUserDto, User} from "../types/types";
+import {UserEditStore} from "./user-edit-store";
 
 @ViewModel
 export class UsersStore {
 
 
   private messageStore : MessageStore;
+  public userEditStore: UserEditStore;
 
   constructor(messageStore: MessageStore){
     this.messageStore = messageStore;
+    this.userEditStore = new UserEditStore(messageStore);
   }
 
   @observable

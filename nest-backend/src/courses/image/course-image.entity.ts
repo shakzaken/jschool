@@ -7,7 +7,6 @@ export class CourseImage {
   @PrimaryGeneratedColumn()
   id:number;
 
-  /*TODO temporary */
 
   @Column("mediumtext")
   image: string;

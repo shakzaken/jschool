@@ -1,9 +1,23 @@
-import {Controller, Get, Post, Body, Param, UseGuards, Delete} from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  UseGuards,
+  Delete,
+  Put,
+  UseInterceptors,
+  UploadedFiles
+} from '@nestjs/common';
 import {UsersService} from "./users.service";
 import {CreateUserDto} from "./dto/create-user-dto";
 import {User} from "./user.entity";
 import {CreateUserImageDto} from "./dto/createUserImage.dto";
 import {AuthGuard} from "../auth/auth.guard";
+import {UpdateUserDto} from "./dto/update-user-dto";
+import {FilesInterceptor} from "@nestjs/platform-express";
+import {CreateCourseImageDto} from "../courses/dto/create-course-image.dto";
 
 
 @UseGuards(AuthGuard)
@@ -32,10 +46,30 @@ export class UsersController {
     return this.usersService.createUser(createUserDto);
   }
 
-  @Post("/images")
-  createUserImage(@Body() createUserImageDto: CreateUserImageDto) {
-    return this.usersService.createUserImage(createUserImageDto);
+  @Put()
+  updateUser(@Body() updateUserDto: UpdateUserDto): Promise<User>{
+    return this.usersService.updateUser(updateUserDto);
   }
+
+
+
+
+  @Post("/images/:userId")
+  @UseInterceptors(FilesInterceptor('files'))
+  async createUserImage(@UploadedFiles() files,@Param() param){
+
+    const userId : number = parseInt(param.userId);
+    const buffer : Buffer = files[0].buffer;
+    const bufferString : string = buffer.toString("base64");
+    const createUserImageDto : CreateUserImageDto = {
+      image:bufferString,userId
+    };
+    const res = await this.usersService.createUserImage(createUserImageDto);
+
+    return res;
+  }
+
+
 
   @Delete("/:id")
   deleteUser(@Param() param){

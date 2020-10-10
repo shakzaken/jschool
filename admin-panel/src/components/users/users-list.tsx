@@ -20,7 +20,13 @@ export class UsersList extends React.Component<UsersListProps,{}>{
   }
 
   onCourseEditSelect(user:User){
-    this.usersStore.setUserEdit(user);
+    const clonedUser:User = {
+      id: user.id,
+      name:user.name,
+      email: user.email
+    };
+
+    this.usersStore.userEditStore.setUser(clonedUser);
     this.rootStore.setActiveMenu(MenuOptions.UserEdit);
   }
 
