@@ -23,9 +23,10 @@
 
 
 .degree-image{
-  display: flex;
   margin-top: 50px;
   height:200px;
+  padding-bottom: 50px;
+  width:80%;
 
 
   .dropzone{
@@ -33,16 +34,22 @@
     height:100%;
     min-height: 100%;
   }
-  .image{
-    flex:1;
 
-    .image-title{
-      text-align: center;
-    }
-    img{
-      height: 100%;
-      max-height: 80%;
-    }
+  .images-container{
+    display: flex;
+
+
+      .image-title{
+        text-align: center;
+      }
+      img{
+        height: 150px;
+        max-height: 150px;
+        width: 200px;
+        max-width: 200px;
+      }
+
   }
+
 
 }

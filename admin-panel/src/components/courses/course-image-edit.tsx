@@ -45,7 +45,7 @@ export class CourseImageEdit extends React.Component<CourseImageEditProps> {
           <Dropzone
             onSubmit={this.handleSubmit}
             maxFiles={1}
-            inputContent="Drop 3 Files"
+            inputContent="Drop 1 File"
             submitButtonContent={this.courseEditStore.submitButtonName}
             inputWithFilesContent={files => `${3 - files.length} more`}
             submitButtonDisabled={files => files.length < 1}

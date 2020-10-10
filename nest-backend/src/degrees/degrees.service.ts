@@ -53,8 +53,8 @@ export class DegreesService {
 
   }
 
-  async createDegreeImage(createDegreeImageDto : CreateDegreeImageDto) : Promise<DegreeImage>{
-    const {degreeId,image} = createDegreeImageDto;
+  async createDegreeImages(createDegreeImageDto : CreateDegreeImageDto) : Promise<DegreeImage[]>{
+    const {degreeId,images} = createDegreeImageDto;
     const degree = await this.degreesRepository.getDegreeById(degreeId);
 
     const degreeImages = await this.degreeImageRepository.getDegreeImagesById(degreeId);
@@ -62,7 +62,7 @@ export class DegreesService {
       await this.degreeImageRepository.deleteDegreeImage(degreeImages);
     }
 
-    const result = await this.degreeImageRepository.createDegreeImage(degree,image);
+    const result = await this.degreeImageRepository.createDegreeImages(degree,images);
     return result;
   }
 

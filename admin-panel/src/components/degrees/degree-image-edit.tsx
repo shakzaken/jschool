@@ -44,17 +44,18 @@ export class DegreeImageEdit extends React.Component<DegreeImageEditProps> {
         <div className="dropzone">
           <Dropzone
             onSubmit={this.handleSubmit}
-            maxFiles={1}
+            maxFiles={3}
             inputContent="Drop 3 Files"
             submitButtonContent={this.degreeEditStore.submitButtonName}
             inputWithFilesContent={files => `${3 - files.length} more`}
             submitButtonDisabled={files => files.length < 1}
           />
         </div>
-
-        <div className="image">
-          <h4 className="image-title">Current Image</h4>
-          <Image size="medium" src={this.degreeEditStore.imageSrc} bordered centered />
+        <h4 className="image-title">Degree Images</h4>
+        <div className="images-container">
+          <Image  src={this.degreeEditStore.imagesSrc[0]} bordered centered />
+          <Image  src={this.degreeEditStore.imagesSrc[1]} bordered centered />
+          <Image  src={this.degreeEditStore.imagesSrc[2]} bordered centered />
         </div>
       </div>
 

@@ -48,15 +48,16 @@ export class DegreesController {
 
   @Post("/images/:degreeId")
   @UseInterceptors(FilesInterceptor('files'))
-  async createCourseImage(@UploadedFiles() files,@Param() param){
+  async createDegreeImage(@UploadedFiles() files,@Param() param){
 
     const degreeId : number = parseInt(param.degreeId);
-    const buffer : Buffer = files[0].buffer;
-    const bufferString : string = buffer.toString("base64");
+    const images : string[] = files.map(file => {
+      return file.buffer.toString("base64");
+    });
     const createDegreeImageDto : CreateDegreeImageDto = {
-      image:bufferString,degreeId
+      images:images,degreeId
     };
-    const res = await this.degreesService.createDegreeImage(createDegreeImageDto);
+    const res = await this.degreesService.createDegreeImages(createDegreeImageDto);
 
     return res;
   }
@@ -81,10 +82,6 @@ export class DegreesController {
       return this.degreesService.createDegreeComment(createDegreeCommentsDto,userId);
   }
 
-  @Post("/images")
-  createDegreeImage(@Body() createDegreeImageDto: CreateDegreeImageDto){
-    return this.degreesService.createDegreeImage(createDegreeImageDto);
-  }
 
   @Delete("/:id")
   deleteDegreeById(@Param() param){

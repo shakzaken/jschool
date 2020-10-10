@@ -21,7 +21,7 @@ export class DegreeEditStore{
   imageBuffer: any[];
 
   @observable
-  imageSrc:string = "";
+  imagesSrc:string[] = [];
 
   @action.bound
   setDegree(degree:Degree){
@@ -49,14 +49,14 @@ export class DegreeEditStore{
   }
 
   @action.bound
-  setImageSrc(imageSrc:any){
-    this.imageSrc = imageSrc;
+  setImagesSrc(imagesSrc:string[]){
+    this.imagesSrc = imagesSrc;
   }
 
 
   @computed
   get submitButtonName(){
-    if(this.setImageSrc){
+    if(this.setImagesSrc.length > 0){
       return "Replace Image";
     }else{
       return "Upload Image";
@@ -77,8 +77,10 @@ export class DegreeEditStore{
 
     try{
       const result = await axios.post(`degrees/images/${this.degree.id}`,formData,config);
-      const imageData = result.data;
-      this.setImageSrc(`data:image/png;base64,${imageData.image}`);
+      const imagesArray = result.data.map((imageData:any) => {
+        return `data:image/png;base64,${imageData.image}`
+      });
+      this.setImagesSrc(imagesArray);
       this.messageStore.displayMessage("Degree Images Saved successfully",MessageType.SUCCESS);
     }catch (err) {
       this.messageStore.displayMessage("Saving Images Operation Failed",MessageType.ERROR);
@@ -88,8 +90,10 @@ export class DegreeEditStore{
   async fetchDegreeImage(){
     const degreeId = this.degree && this.degree.id;
     const result = await axios.get(`degrees/images/${degreeId}`);
-    const imageData = result.data[0];
-    this.setImageSrc(`data:image/png;base64,${imageData.image}`)
+    const imagesArray = result.data.map((imageData:any) => {
+      return `data:image/png;base64,${imageData.image}`
+    });
+    this.setImagesSrc(imagesArray);
   }
 
 

@@ -12,13 +12,16 @@ export class DegreeImageRepository extends Repository<DegreeImage> {
     return this.find({where:{degreeId:degreeId}});
   }
 
-  async createDegreeImage(degree:Degree,image:string) : Promise<DegreeImage>{
+  async createDegreeImages(degree:Degree,images:string[]) : Promise<DegreeImage[]>{
 
-    const degreeImage = new DegreeImage();
-    degreeImage.degree = degree;
-    degreeImage.image = image;
-    const result = await this.save(degreeImage);
-    return result;
+    const degreeImages: DegreeImage[] = images.map(  (image) => {
+      const degreeImage = new DegreeImage();
+      degreeImage.degree = degree;
+      degreeImage.image = image;
+      return degreeImage;
+    });
+    return this.save(degreeImages)
+
   }
 
   async deleteDegreeImage(degreeImage: DegreeImage[]){
