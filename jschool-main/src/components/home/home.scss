@@ -1,0 +1,31 @@
+
+
+.home-page{
+
+
+  .home-title{
+
+    margin-left:30%;
+    margin-top:20px;
+    font-weight: 500;
+    font-size:30px;
+  }
+
+  .home-description{
+    margin-left:30%;
+    margin-top:20px;
+    font-size: 18px;
+  }
+
+  .home-body{
+    width: 70%;
+    margin: 100px auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    grid-row-gap: 50px;
+  }
+
+}
+
+

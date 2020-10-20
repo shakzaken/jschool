@@ -1,0 +1,13 @@
+.sidebar{
+
+  height: 200px;
+  background-color: #5889ff;
+  display: flex;
+  align-items: center;
+
+  &-email{
+    margin-left:20%;
+    margin-top: 100px;
+    color:white;
+  }
+}
