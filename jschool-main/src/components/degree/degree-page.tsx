@@ -4,6 +4,8 @@ import image from "./laptop-image.jpg";
 import {Comment} from "semantic-ui-react";
 import avatarImage from "./avatar.png";
 import {JComment} from "../comment/comment";
+import JavaImage from "./java3.jpeg";
+import {CourseCard} from "./course-card/course-card";
 
 
 interface DegreePageProps {
@@ -12,6 +14,7 @@ interface DegreePageProps {
 
 interface DegreePageState {
   comments: CommentModel[];
+  courses: CourseModel[];
 }
 
 interface CommentModel {
@@ -19,6 +22,12 @@ interface CommentModel {
   date:string;
   image:any;
   text:string;
+}
+
+interface CourseModel {
+  id:number;
+  name:string;
+  image:any;
 }
 
 export class DegreePage extends Component<DegreePageProps,DegreePageState>{
@@ -46,6 +55,39 @@ export class DegreePage extends Component<DegreePageProps,DegreePageState>{
             image: avatarImage,
             text: "This is the best degree. Deeply recommended! "
           }
+        ],
+        courses:[
+          {
+            id:1,
+            name:"Nodejs for pros",
+            image:JavaImage,
+          },
+          {
+            id:2,
+            name:"React for pros",
+            image:JavaImage,
+          },
+          {
+            id:3,
+            name:"Vue for pros",
+            image:JavaImage,
+          },
+          {
+            id:4,
+            name:"Java for beginners",
+            image:JavaImage,
+          },
+          {
+            id:5,
+            name:"PHP for Masters",
+            image:JavaImage,
+          },
+          {
+            id:6,
+            name:"Laravel front to back",
+            image:JavaImage,
+          },
+
         ]
       };
     }
@@ -61,6 +103,14 @@ export class DegreePage extends Component<DegreePageProps,DegreePageState>{
       );
     }
 
+
+    coursesCards(){
+      return this.state.courses.map(course =>
+        <CourseCard id={course.id} image={course.image} name={course.name}/>
+      );
+
+    }
+
     render(){
       return (
         <div className="degree-page">
@@ -68,9 +118,19 @@ export class DegreePage extends Component<DegreePageProps,DegreePageState>{
           <div className="degree-page-main-image">
             <img src={image}></img>
           </div>
-          <div className="comments-section">
-            <p>Comments</p>
 
+
+          <div className="courses-cards">
+
+            <p className="title">Courses</p>
+            <div className="grid">
+              {this.coursesCards()}
+            </div>
+
+          </div>
+
+          <div className="comments-section">
+            <p className="comments-title">Comments</p>
             <Comment.Group>
               {this.commentsComponents()}
             </Comment.Group>
