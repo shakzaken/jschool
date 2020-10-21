@@ -1,7 +1,7 @@
-import React,{Component} from "react";
+import React, {ChangeEvent, Component} from "react";
 import "./degree-page.scss";
 import image from "./laptop-image.jpg";
-import {Comment} from "semantic-ui-react";
+import {Form,Button,Comment} from "semantic-ui-react";
 import avatarImage from "./avatar.png";
 import {JComment} from "../comment/comment";
 import JavaImage from "./java3.jpeg";
@@ -15,6 +15,7 @@ interface DegreePageProps {
 interface DegreePageState {
   comments: CommentModel[];
   courses: CourseModel[];
+  formComment:string;
 }
 
 interface CommentModel {
@@ -88,10 +89,27 @@ export class DegreePage extends Component<DegreePageProps,DegreePageState>{
             image:JavaImage,
           },
 
-        ]
+        ],
+        formComment:""
       };
+      this.onCommentChange = this.onCommentChange.bind(this);
+      this.onSubmit = this.onSubmit.bind(this);
     }
 
+    onSubmit(value:any){
+      const newComment: CommentModel = {
+        name:"shak",
+        date: new Date().toLocaleDateString(),
+        image: avatarImage,
+        text: this.state.formComment
+      };
+      const comments = this.state.comments;
+      comments.push(newComment);
+      this.setState({comments});
+    }
+    onCommentChange(event: ChangeEvent<HTMLTextAreaElement> ){
+      this.setState({formComment:event.target.value});
+    }
 
     commentsComponents(){
       return this.state.comments.map(comment =>
@@ -134,6 +152,10 @@ export class DegreePage extends Component<DegreePageProps,DegreePageState>{
             <Comment.Group>
               {this.commentsComponents()}
             </Comment.Group>
+            <Form reply onSubmit={(value) => this.onSubmit(value)}>
+              <Form.TextArea value={this.state.formComment} onChange={this.onCommentChange}  />
+              <Button content='Add Reply' labelPosition='left' icon='edit' primary />
+            </Form>
           </div>
 
         </div>
