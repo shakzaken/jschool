@@ -41,6 +41,10 @@ export class CoursesService {
     return this.courseRepository.createCourse(createCourseDto);
   }
 
+  getCourseById(courseId:number): Promise<Course>{
+    return this.courseRepository.getCourseById(courseId);
+  }
+
   async createCourseComment(createCourseCommentDto,userId:number) : Promise<CourseComment> {
     const {courseId,comment} = createCourseCommentDto;
     const course: Course = await this.courseRepository.getCourseById(courseId);
@@ -71,5 +75,7 @@ export class CoursesService {
   deleteCourseById(id:number){
     return this.courseRepository.deleteCourseById(id);
   }
+
+
 
 }

@@ -11,12 +11,10 @@ import {CourseImage} from "./image/course-image.entity";
 import {CourseImageRepository} from "./image/course-image.repository";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([
-    CourseRepository,User,UsersRepository,
-    CourseImage,CourseImageRepository,
-    CourseComment,CourseCommentsRepository])],
+  imports: [TypeOrmModule.forFeature([CourseRepository,User,UsersRepository,CourseImage,CourseImageRepository,CourseComment,CourseCommentsRepository])],
   controllers: [CoursesController],
-  providers: [CoursesService]
+  providers: [CoursesService],
+  exports:[CoursesService]
 })
 export class CoursesModule {}
 

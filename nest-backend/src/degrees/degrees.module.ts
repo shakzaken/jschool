@@ -12,14 +12,11 @@ import {User} from "../users/user.entity";
 import {DegreeImageRepository} from "./image/degree-image.repository";
 import {AuthModule} from "../auth/auth.module";
 import {UsersModule} from "../users/users.module";
-import {jwtConstants} from "../config/auth";
-import {JwtModule} from "@nestjs/jwt";
+import {CoursesModule} from "../courses/courses.module";
+
 
 @Module({
-  imports:[UsersModule,AuthModule,TypeOrmModule.forFeature([
-    DegreesRepository,Degree,Course,UsersRepository,User,
-    DegreeImageRepository,DegreesRepository,
-    DegreeCommentsRepository,DegreeComment])],
+  imports:[UsersModule,CoursesModule,AuthModule,TypeOrmModule.forFeature([DegreesRepository,Degree,Course,UsersRepository,User,Course,DegreeImageRepository,DegreesRepository,DegreeCommentsRepository,DegreeComment])],
   controllers: [DegreesController],
   providers: [DegreesService]
 })

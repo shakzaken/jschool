@@ -19,6 +19,7 @@ import {AuthGuard} from "../auth/auth.guard";
 import {FilesInterceptor} from "@nestjs/platform-express";
 import {CreateCourseImageDto} from "../courses/dto/create-course-image.dto";
 import {UpdateDegreeDto} from "./dto/update-degree-dto";
+import {AddCourseDegreeDto} from "./dto/add-course-degree.dto";
 
 
 @UseGuards(AuthGuard)
@@ -33,6 +34,15 @@ export class DegreesController {
   @Get()
   getDegrees() : Promise<Degree[]>{
     return this.degreesService.getAllDegrees();
+  }
+  @Get("/images")
+  getDegreesWithImage() : Promise<Degree[]>{
+    return this.degreesService.getAllDegreesWithImage();
+  }
+
+  @Get("/:id")
+  getFullDegree(@Param() param){
+    return this.degreesService.getDegreeWithCoursesAndComments(param.id);
   }
 
   @Get("/comments/:degreeId")
@@ -72,6 +82,11 @@ export class DegreesController {
   createDegree(
     @Body() createDegreeDto : CreateDegreeDto) : Promise<Degree>{
     return this.degreesService.createDegree(createDegreeDto);
+  }
+
+  @Post("/courses")
+  addCourseToDegree(@Body() addCourseDegreeDto:AddCourseDegreeDto) : Promise<Degree>{
+    return this.degreesService.addCourseToDegree(addCourseDegreeDto);
   }
 
   @Post("/comments")

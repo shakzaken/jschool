@@ -1,12 +1,38 @@
 .navbar{
 
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
   height:70px;
   background-color: #3fa0ff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
 
   .title{
     color:white;
+  }
+
+
+  &-left-links{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    a{
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+  }
+  &-right-links{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span,a{
+      margin-left:30px;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
   }
 }

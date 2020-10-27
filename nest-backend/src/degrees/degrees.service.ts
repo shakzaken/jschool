@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {Inject, Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {DegreesRepository} from "./degrees.repository";
 import {Degree} from "./degree.entity";
@@ -10,6 +10,9 @@ import {DegreeImage} from "./image/degree-image.entity";
 import {DegreeImageRepository} from "./image/degree-image.repository";
 import {CreateDegreeImageDto} from "./dto/create-degree-image.dto";
 import {UpdateDegreeDto} from "./dto/update-degree-dto";
+import {AddCourseDegreeDto} from "./dto/add-course-degree.dto";
+import {CoursesService} from "../courses/courses.service";
+import {Course} from "../courses/courses.entity";
 
 
 @Injectable()
@@ -23,12 +26,31 @@ export class DegreesService {
     @InjectRepository(DegreeCommentsRepository)
     private degreeCommentsRepository : DegreeCommentsRepository,
     @InjectRepository(DegreeImageRepository)
-    private degreeImageRepository: DegreeImageRepository
+    private degreeImageRepository: DegreeImageRepository,
+    private coursesService:CoursesService
   ){}
 
 
   getAllDegrees() : Promise<Degree[]>{
     return this.degreesRepository.getAllDegrees();
+  }
+
+
+  async getDegreeWithCoursesAndComments(degreeId:number) : Promise<Degree>{
+    const degree : Degree = await this.degreesRepository.getDegreeWithCoursesAndComments(degreeId);
+    const count = degree.degreeImages.length - 1;
+    degree.degreeImages.splice(1,count);
+    return degree;
+  }
+  async getAllDegreesWithImage() : Promise<Degree[]>{
+
+    /* Take only the first image */
+    const degreesWithImage = await this.degreesRepository.getAllDegreesWithImages();
+    degreesWithImage.forEach(degree => {
+      const count = degree.degreeImages.length - 1;
+      degree.degreeImages.splice(1,count);
+    });
+    return degreesWithImage;
   }
 
   getDegreeCommentsById(degreeId:number) : Promise<DegreeComment[]>{
@@ -72,6 +94,13 @@ export class DegreesService {
 
   async updateDegree(updateDegreeDto: UpdateDegreeDto){
     return this.degreesRepository.updateDegree(updateDegreeDto);
+  }
+
+  async addCourseToDegree(courseDegreeDto: AddCourseDegreeDto){
+    const {courseId,degreeId} = courseDegreeDto;
+    const course : Course = await this.coursesService.getCourseById(courseId);
+    const degree :Degree = await this.degreesRepository.addCourseToDegree(degreeId,course);
+    return degree;
   }
 
 }

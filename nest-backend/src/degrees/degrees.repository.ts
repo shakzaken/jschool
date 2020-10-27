@@ -3,6 +3,8 @@ import {Degree} from "./degree.entity";
 import {CreateDegreeDto} from "./dto/createDegreeDto";
 import {BadRequestException} from "@nestjs/common";
 import {UpdateDegreeDto} from "./dto/update-degree-dto";
+import {AddCourseDegreeDto} from "./dto/add-course-degree.dto";
+import {Course} from "../courses/courses.entity";
 
 
 @EntityRepository(Degree)
@@ -12,6 +14,11 @@ export class DegreesRepository extends Repository<Degree> {
   getAllDegrees() : Promise<Degree[]>{
     return this.find({});
   }
+
+  getAllDegreesWithImages() : Promise<Degree[]>{
+    return this.find({relations:["degreeImages"]});
+  }
+
 
   async createDegree(createDegreeDto : CreateDegreeDto) : Promise<Degree>{
     const degree = new Degree();
@@ -43,6 +50,17 @@ export class DegreesRepository extends Repository<Degree> {
     degree.name = updateDegreeDto.name;
     degree.description = updateDegreeDto.description;
     return this.save(degree);
+  }
+
+  async addCourseToDegree(degreeId:number,course:Course) : Promise<Degree>{
+    const degree : Degree = await this.findOne({id:degreeId},{relations:["courses"]});
+    degree.courses.push(course);
+    return this.save(degree);
+  }
+
+  async getDegreeWithCoursesAndComments(degreeId:number){
+    const degree :Degree = await this.findOne({id:degreeId},{relations:["courses","degreeComments","degreeImages"]});
+    return degree;
   }
 
 }
