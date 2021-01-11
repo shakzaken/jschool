@@ -44,6 +44,10 @@ export class DegreesController {
   getFullDegree(@Param() param){
     return this.degreesService.getDegreeWithCoursesAndComments(param.id);
   }
+  @Get("/courses/:degreeId")
+  getDegreeWithCourses(@Param() param){
+    return this.degreesService.getDegreeWithCourses(param.degreeId);
+  }
 
   @Get("/comments/:degreeId")
   getDegreeComments(@Param() param){

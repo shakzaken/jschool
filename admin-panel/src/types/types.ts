@@ -69,11 +69,20 @@ export enum CourseEditMenuOptions {
 export enum DegreeEditMenuOptions {
 
   EditDegree="EditDegree",
-  EditImage="EditImage"
+  EditImage="EditImage",
+  EditCourses="EditCourses"
 }
 
 export enum UserEditMenuOptions {
 
   EditUser="EditUser",
   EditImage="EditImage"
+}
+
+
+
+export interface SelectOption {
+  key:string;
+  text:string;
+  value:any;
 }

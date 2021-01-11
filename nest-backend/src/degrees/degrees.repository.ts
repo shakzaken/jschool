@@ -19,6 +19,16 @@ export class DegreesRepository extends Repository<Degree> {
     return this.find({relations:["degreeImages"]});
   }
 
+  async getDegreeWithCoursesAndComments(degreeId:number){
+    const degree :Degree = await this.findOne({id:degreeId},{relations:["courses","degreeComments","degreeImages"]});
+    return degree;
+  }
+
+  async getDegreeWithCourses(degreeId:number){
+    const degree :Degree = await this.findOne({id:degreeId},{relations:["courses"]});
+    return degree;
+  }
+
 
   async createDegree(createDegreeDto : CreateDegreeDto) : Promise<Degree>{
     const degree = new Degree();
@@ -58,9 +68,6 @@ export class DegreesRepository extends Repository<Degree> {
     return this.save(degree);
   }
 
-  async getDegreeWithCoursesAndComments(degreeId:number){
-    const degree :Degree = await this.findOne({id:degreeId},{relations:["courses","degreeComments","degreeImages"]});
-    return degree;
-  }
+  
 
 }

@@ -1,7 +1,8 @@
-import {Degree, DegreeEditMenuOptions} from "../types/types";
+import {Degree, DegreeEditMenuOptions,Course,SelectOption} from "../types/types";
 import {action, computed, observable} from "mobx";
-import axios, {AxiosRequestConfig} from "axios";
+import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
 import {MessageStore, MessageType} from "./message-store";
+
 
 export class DegreeEditStore{
 
@@ -14,6 +15,12 @@ export class DegreeEditStore{
   @observable
   degree: Degree;
 
+  @observable.ref
+  private allCourses: Course[] = [];
+
+  @observable.ref
+  private selectedCourses: number[] = [];
+
   @observable
   menuType: DegreeEditMenuOptions = DegreeEditMenuOptions.EditDegree;
 
@@ -22,6 +29,16 @@ export class DegreeEditStore{
 
   @observable
   imagesSrc:string[] = [];
+
+
+  @computed
+  get selecetedCoursesInUi(){
+    return  this.selectedCourses;
+  }
+  @computed
+  get allCoursesInUI(){
+    return this.allCourses.map(this.mapCourseToSelectInput);
+  }
 
   @action.bound
   setDegree(degree:Degree){
@@ -51,6 +68,22 @@ export class DegreeEditStore{
   @action.bound
   setImagesSrc(imagesSrc:string[]){
     this.imagesSrc = imagesSrc;
+  }
+
+  @action.bound
+  setCoursesAndSelectedCourses(allCourses:Course[],selectedCourses: Course[]){
+    this.setAllCourses(allCourses);
+    const selectedCoursesIds = selectedCourses.map(course => course.id);
+    this.setSelectedCourses(selectedCoursesIds);
+  }
+
+  @action.bound
+  setAllCourses(allCourses:Course[]){
+    this.allCourses = allCourses;
+  }
+  @action.bound
+  setSelectedCourses(selectedCourses:number[]){
+    this.selectedCourses = selectedCourses;
   }
 
 
@@ -113,6 +146,28 @@ export class DegreeEditStore{
 
     }
 
+  }
+
+  mapCourseToSelectInput(course:Course) : SelectOption{
+      return {
+        text: course.name,
+        key: course.id.toString(),
+        value: course
+      }
+  }
+  
+
+
+  async fetchDegreeCourses(){
+    const degreeId = this.degree && this.degree.id;
+    const allCoursesReponse : AxiosResponse<any> = await axios.get("courses");
+    const selectedCoursesResponse : AxiosResponse<any> = await axios.get(`degrees/courses/${degreeId}`);
+    this.setCoursesAndSelectedCourses(allCoursesReponse.data,selectedCoursesResponse.data.courses);
+  }
+
+  async fetchAllCourses(){
+    const response : AxiosResponse<Course[]> = await axios.get(`courses`);
+    console.log(response);
   }
 
 

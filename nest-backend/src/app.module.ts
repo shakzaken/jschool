@@ -15,16 +15,15 @@ import {DegreeImage} from "./degrees/image/degree-image.entity";
 import {UserImage} from "./users/images/user-image.entity";
 import { AuthModule } from './auth/auth.module';
 import {MulterModule} from "@nestjs/platform-express";
-
-
+import {dbConfig} from "./config/db.config";
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: "mysql",
       host: "localhost",
       port: 3306,
-      username: "root",
-      password:"1234",
+      username: dbConfig.user,
+      password: dbConfig.password,
       database: "jschool",
       entities: [User,Course,CourseComment,CourseImage,
                   Degree,DegreeComment,DegreeImage,UserImage],

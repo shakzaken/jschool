@@ -42,6 +42,10 @@ export class DegreesService {
     degree.degreeImages.splice(1,count);
     return degree;
   }
+
+  async getDegreeWithCourses(degreeId:number) : Promise<Degree>{
+    return this.degreesRepository.getDegreeWithCourses(degreeId);
+  }
   async getAllDegreesWithImage() : Promise<Degree[]>{
 
     /* Take only the first image */

@@ -5,6 +5,7 @@ import {Course, DegreeEditMenuOptions} from "../../types/types";
 import {Menu} from "semantic-ui-react";
 import {DegreeEditForm} from "./degree-edit-form";
 import {DegreeImageEdit} from "./degree-image-edit";
+import {DegreeCoursesEdit} from "./degree-courses-edit";
 
 interface DegreeEditProps {
   rootStore?:RootStore;
@@ -25,6 +26,7 @@ export class DegreeEdit extends Component<DegreeEditProps> {
     switch (menuType) {
       case DegreeEditMenuOptions.EditDegree : return <DegreeEditForm/>;
       case DegreeEditMenuOptions.EditImage : return <DegreeImageEdit/>;
+      case DegreeEditMenuOptions.EditCourses : return <DegreeCoursesEdit/>;
     }
   }
 
@@ -34,7 +36,7 @@ export class DegreeEdit extends Component<DegreeEditProps> {
     return (
       <div>
         <h2>{degree.name}</h2>
-        <Menu fluid widths={2}>
+        <Menu fluid widths={3}>
           <Menu.Item
             name="Degree Form"
             onClick={event => this.degreeEditStore.setMenuType(DegreeEditMenuOptions.EditDegree)}
@@ -44,6 +46,11 @@ export class DegreeEdit extends Component<DegreeEditProps> {
             name="Degree Image"
             onClick={event => this.degreeEditStore.setMenuType(DegreeEditMenuOptions.EditImage)}
             active={this.degreeEditStore.menuType === DegreeEditMenuOptions.EditImage}
+          />
+          <Menu.Item
+            name="Degree Courses"
+            onClick={event => this.degreeEditStore.setMenuType(DegreeEditMenuOptions.EditCourses)}
+            active={this.degreeEditStore.menuType === DegreeEditMenuOptions.EditCourses}
           />
 
         </Menu>
