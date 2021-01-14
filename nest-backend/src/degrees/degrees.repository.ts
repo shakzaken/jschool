@@ -62,9 +62,9 @@ export class DegreesRepository extends Repository<Degree> {
     return this.save(degree);
   }
 
-  async addCourseToDegree(degreeId:number,course:Course) : Promise<Degree>{
+  async setCoursesToDegree(degreeId:number,courses:Course[]) : Promise<Degree>{
     const degree : Degree = await this.findOne({id:degreeId},{relations:["courses"]});
-    degree.courses.push(course);
+    degree.courses = courses;
     return this.save(degree);
   }
 

@@ -84,5 +84,5 @@ export enum UserEditMenuOptions {
 export interface SelectOption {
   key:string;
   text:string;
-  value:any;
+  value:string;
 }

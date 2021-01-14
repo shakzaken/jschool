@@ -90,7 +90,7 @@ export class DegreesController {
 
   @Post("/courses")
   addCourseToDegree(@Body() addCourseDegreeDto:AddCourseDegreeDto) : Promise<Degree>{
-    return this.degreesService.addCourseToDegree(addCourseDegreeDto);
+    return this.degreesService.addCoursesToDegree(addCourseDegreeDto);
   }
 
   @Post("/comments")

@@ -100,10 +100,10 @@ export class DegreesService {
     return this.degreesRepository.updateDegree(updateDegreeDto);
   }
 
-  async addCourseToDegree(courseDegreeDto: AddCourseDegreeDto){
-    const {courseId,degreeId} = courseDegreeDto;
-    const course : Course = await this.coursesService.getCourseById(courseId);
-    const degree :Degree = await this.degreesRepository.addCourseToDegree(degreeId,course);
+  async addCoursesToDegree(courseDegreeDto: AddCourseDegreeDto){
+    const {coursesIds,degreeId} = courseDegreeDto;
+    const courses: Course[] = await this.coursesService.getCoursesByIds(coursesIds);
+    const degree :Degree = await this.degreesRepository.setCoursesToDegree(degreeId,courses);
     return degree;
   }
 

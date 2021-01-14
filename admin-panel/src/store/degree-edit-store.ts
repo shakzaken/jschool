@@ -19,7 +19,7 @@ export class DegreeEditStore{
   private allCourses: Course[] = [];
 
   @observable.ref
-  private selectedCourses: number[] = [];
+  public selectedCourses: string[] = [];
 
   @observable
   menuType: DegreeEditMenuOptions = DegreeEditMenuOptions.EditDegree;
@@ -31,10 +31,6 @@ export class DegreeEditStore{
   imagesSrc:string[] = [];
 
 
-  @computed
-  get selecetedCoursesInUi(){
-    return  this.selectedCourses;
-  }
   @computed
   get allCoursesInUI(){
     return this.allCourses.map(this.mapCourseToSelectInput);
@@ -73,7 +69,7 @@ export class DegreeEditStore{
   @action.bound
   setCoursesAndSelectedCourses(allCourses:Course[],selectedCourses: Course[]){
     this.setAllCourses(allCourses);
-    const selectedCoursesIds = selectedCourses.map(course => course.id);
+    const selectedCoursesIds = selectedCourses.map(course => course.id.toString());
     this.setSelectedCourses(selectedCoursesIds);
   }
 
@@ -82,7 +78,7 @@ export class DegreeEditStore{
     this.allCourses = allCourses;
   }
   @action.bound
-  setSelectedCourses(selectedCourses:number[]){
+  setSelectedCourses(selectedCourses:string[]){
     this.selectedCourses = selectedCourses;
   }
 
@@ -152,7 +148,7 @@ export class DegreeEditStore{
       return {
         text: course.name,
         key: course.id.toString(),
-        value: course
+        value: course.id.toString()
       }
   }
   
@@ -168,6 +164,16 @@ export class DegreeEditStore{
   async fetchAllCourses(){
     const response : AxiosResponse<Course[]> = await axios.get(`courses`);
     console.log(response);
+  }
+
+  async saveDegreeCourses(event:any){
+    const data = {
+      degreeId: this.degree.id,
+      coursesIds: this.selectedCourses
+    };
+    await axios.post("/degrees/courses",data);
+    this.fetchDegreeCourses();
+      
   }
 
 

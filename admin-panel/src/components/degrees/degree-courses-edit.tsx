@@ -1,7 +1,8 @@
 import React from "react";
-import {Button,Form,Table,Select,SelectProps} from "semantic-ui-react";
+import {Button,Form,Table,Dropdown} from "semantic-ui-react";
 import {inject,observer} from "mobx-react";
 import {RootStore} from "../../store/root-store";
+import {DegreeEditStore} from "../../store/degree-edit-store";
 
 
 interface DegreeCoursesEditProps {
@@ -12,12 +13,22 @@ interface DegreeCoursesEditProps {
 @observer
 export class DegreeCoursesEdit extends React.Component<DegreeCoursesEditProps,{}> {
 
-  private degreeEditStore = this.props.rootStore.degreesStore.degreeEditStore;
+  private degreeEditStore : DegreeEditStore = this.props.rootStore.degreesStore.degreeEditStore;
 
-
+  constructor(props: DegreeCoursesEditProps) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
+  }
 
   componentDidMount(){
       this.degreeEditStore.fetchDegreeCourses();
+  }
+
+  onChange(event:any,changeObject:any){
+    console.log(changeObject);
+    const courses = changeObject.value.filter((value:any) => value!=null);
+    console.log(courses);
+    this.degreeEditStore.setSelectedCourses(courses)
   }
 
   render() {
@@ -28,39 +39,22 @@ export class DegreeCoursesEdit extends React.Component<DegreeCoursesEditProps,{}
       <div>
         <h3>Degree Courses</h3>
         <Form>
-          <Form.Field>
-            <label>Add course</label>
-            <input
-              value={degree.name}
-              onChange={event => degreesEditStore.setName(event.target.value)}
-              placeholder="Name"
-              type="text"/>
-
-              <Select 
-              multiple
-              value ={this.degreeEditStore.selecetedCoursesInUi}
-              options={this.degreeEditStore.allCoursesInUI}/>
-          </Form.Field>
-  
+            <Form.Field>
+              <Dropdown
+                  multiple
+                  fluid
+                  selection
+                  onChange={this.onChange}
+                  value={this.degreeEditStore.selectedCourses}
+                  options={this.degreeEditStore.allCoursesInUI}
+              />
+            </Form.Field>
           <Button
             type="submit"
-            onClick={event => degreesEditStore.updateDegree(event)}>Save
+            onClick={event => degreesEditStore.saveDegreeCourses(event)}>Save
           </Button>
         </Form>
-        <Table celled>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Id</Table.HeaderCell>
-              <Table.HeaderCell>Name</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            <Table.Row>
-              <Table.Cell>5</Table.Cell>
-              <Table.Cell>nodeJs</Table.Cell>
-            </Table.Row>
-          </Table.Body>
-        </Table>
+
       </div>
     )
   }

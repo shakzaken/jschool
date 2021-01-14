@@ -45,6 +45,9 @@ export class CoursesService {
     return this.courseRepository.getCourseById(courseId);
   }
 
+  getCoursesByIds(coursesIds:number[]): Promise<Course[]>{
+    return this.courseRepository.findByIds(coursesIds);
+  }
   async createCourseComment(createCourseCommentDto,userId:number) : Promise<CourseComment> {
     const {courseId,comment} = createCourseCommentDto;
     const course: Course = await this.courseRepository.getCourseById(courseId);
