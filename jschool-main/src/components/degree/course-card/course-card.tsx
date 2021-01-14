@@ -13,8 +13,9 @@ export class CourseCard extends Component<CourseCardProps,{}>{
     const linkPath = `/course/${this.props.id}`;
 
     const {name,image} = this.props;
+    const imageSrc = `data:image/png;base64,${image}`;
     return <div className="course-card">
-      <img src={image} alt="image"/>
+      <img src={imageSrc} alt="image"/>
       <div className="course-card-body">
         <p className="course-card-body-title">
           {name}

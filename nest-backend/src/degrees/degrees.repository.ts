@@ -20,7 +20,10 @@ export class DegreesRepository extends Repository<Degree> {
   }
 
   async getDegreeWithCoursesAndComments(degreeId:number){
-    const degree :Degree = await this.findOne({id:degreeId},{relations:["courses","degreeComments","degreeImages"]});
+    const degree :Degree = await this.findOne({id:degreeId},
+        {relations:[
+            "courses","courses.courseImages",
+            "degreeComments","degreeComments.user","degreeImages"]});
     return degree;
   }
 

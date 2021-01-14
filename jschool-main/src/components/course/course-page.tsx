@@ -18,7 +18,6 @@ interface CoursePageState {
 interface CommentModel {
   name:string;
   date:string;
-  image:any;
   text:string;
 }
 
@@ -34,19 +33,16 @@ export class CoursePage extends Component<CoursePageProps,CoursePageState>{
           {
             name:"Shak",
             date: "22-10-2020",
-            image: avatarImage,
             text: "This is the best course. Deeply recommended! "
           },
           {
             name:"Shak",
             date: "22-10-2020",
-            image: avatarImage,
             text: "This is the best course. Deeply recommended! "
           },
           {
             name:"Shak",
             date: "22-10-2020",
-            image: avatarImage,
             text: "This is the best course. Deeply recommended! "
           }
         ],
@@ -60,7 +56,6 @@ export class CoursePage extends Component<CoursePageProps,CoursePageState>{
       const newComment: CommentModel = {
         name:"shak",
         date: new Date().toLocaleDateString(),
-        image: avatarImage,
         text: this.state.formComment
       };
       const comments = this.state.comments;
@@ -75,7 +70,6 @@ export class CoursePage extends Component<CoursePageProps,CoursePageState>{
       return this.state.comments.map(comment =>
         <JComment text={comment.text}
           date={comment.date}
-          userImage={comment.image}
           userName={comment.name}
         />
       );

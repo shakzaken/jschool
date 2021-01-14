@@ -16,7 +16,7 @@ export class DegreeCard extends Component<DegreeCardProps,{}>{
       <img src={imageSrc} alt="image"/>
       <div className="degree-card-body">
         <p className="degree-card-body-title">
-          Computer science
+          {this.props.name}
         </p>
         <div className="degree-card-body-link">
           <Link to={linkPath}>More Info</Link>

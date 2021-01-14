@@ -2,14 +2,17 @@ import React, {ChangeEvent, Component} from "react";
 import "./degree-page.scss";
 import image from "./laptop-image.jpg";
 import {Form,Button,Comment} from "semantic-ui-react";
-import avatarImage from "./avatar.png";
+import avatarImage from "../comment/avatar.png";
 import {JComment} from "../comment/comment";
 import JavaImage from "./java3.jpeg";
 import {CourseCard} from "./course-card/course-card";
-
+import {inject,observer} from "mobx-react";
+import {RootStore} from "../../store/root.store";
+import {DegreePageStore} from "../../store/degree-page.store";
 
 interface DegreePageProps {
     match: any;
+    rootStore:RootStore;
 }
 
 interface DegreePageState {
@@ -31,10 +34,18 @@ interface CourseModel {
   image:any;
 }
 
+@inject("rootStore")
+@observer
 export class DegreePage extends Component<DegreePageProps,DegreePageState>{
 
+    store :DegreePageStore = this.props.rootStore.degreePageStore;
 
-    constructor(props: DegreePageProps){
+    componentDidMount() {
+      const degreeId = this.props.match.params.id;
+      this.store.fetchDegreeData(degreeId);
+    }
+
+  constructor(props: DegreePageProps){
       super(props);
       this.state = {
         comments:[
@@ -112,20 +123,29 @@ export class DegreePage extends Component<DegreePageProps,DegreePageState>{
     }
 
     commentsComponents(){
-      return this.state.comments.map(comment =>
-        <JComment text={comment.text}
-          date={comment.date}
-          userImage={comment.image}
-          userName={comment.name}
-        />
-      );
+      return this.store.comments.map(comment =>{
+          const date = new Date(comment.date);
+          return <JComment text={comment.comment}
+                    key={comment.id}
+                    date={date.toLocaleDateString()}
+                    userName={null}/>
+      });
+
     }
 
 
     coursesCards(){
-      return this.state.courses.map(course =>
-        <CourseCard id={course.id} image={course.image} name={course.name}/>
-      );
+      return this.store.courses.map(course =>{
+        const courseImage = course.courseImages && course.courseImages[0].image;
+        return <CourseCard
+            key={course.id}
+            id={course.id}
+            image={courseImage}
+            name={course.name}
+          />
+      });
+
+
 
     }
 
