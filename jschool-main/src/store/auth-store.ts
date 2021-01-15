@@ -2,12 +2,14 @@ import {action, computed, observable} from "mobx";
 import {LoginResponse, UserModel} from "../types";
 import axios, {AxiosResponse} from "axios";
 
-export class LoginPageStore {
+export class AuthStore {
 
 
   constructor(){
     const token = localStorage.getItem("token");
     if(token){
+      const user = JSON.parse(localStorage.getItem("user"));
+      this.setUser(user);
       this.setToken(token);
       axios.defaults.headers["Authorization"] = token;
     }
@@ -64,7 +66,7 @@ export class LoginPageStore {
     this.setToken(res.data.token);
     axios.defaults.headers["Authorization"] = res.data.token;
     localStorage.setItem("token",res.data.token);
-    console.log("submit")
+    localStorage.setItem("user",JSON.stringify(res.data.user));
   }
 
   @action.bound

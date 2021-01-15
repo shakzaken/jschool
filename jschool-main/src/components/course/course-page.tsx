@@ -71,6 +71,7 @@ export class CoursePage extends Component<CoursePageProps,CoursePageState>{
         <JComment text={comment.text}
           date={comment.date}
           userName={comment.name}
+          onDelete={(event:any) => console.log("delete")}
         />
       );
     }

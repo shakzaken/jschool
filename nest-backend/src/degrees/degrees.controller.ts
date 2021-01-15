@@ -101,6 +101,12 @@ export class DegreesController {
       return this.degreesService.createDegreeComment(createDegreeCommentsDto,userId);
   }
 
+  @Delete("/comments/:id")
+  deleteDegreeComment(@Param() params){
+    const commentId = params.id;
+    return this.degreesService.deleteDegreeComment(commentId);
+  }
+
 
   @Delete("/:id")
   deleteDegreeById(@Param() param){

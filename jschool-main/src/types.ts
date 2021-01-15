@@ -15,6 +15,12 @@ export interface DegreeComment{
   date:Date;
 }
 
+export interface DegreeCommentDto {
+  comment:string;
+  degreeId:number;
+  userId:number;
+}
+
 
 export interface DegreeImage{
   id:number;

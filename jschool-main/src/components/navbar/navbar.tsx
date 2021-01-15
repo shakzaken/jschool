@@ -13,12 +13,12 @@ interface NavbarProps {
 @observer
 export class Navbar extends Component<NavbarProps,{}> {
 
-  loginStore = this.props.rootStore.loginPageStore;
+  authStore = this.props.rootStore.authStore;
 
 
   rightLinks(){
-    if(this.loginStore.isLoggedIn){
-      return <span onClick={event => this.loginStore.logout()}>Logout</span>;
+    if(this.authStore.isLoggedIn){
+      return <span onClick={event => this.authStore.logout()}>Logout</span>;
     }else{
       return <Link to="/login">Login</Link> ;
     }

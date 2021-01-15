@@ -100,6 +100,10 @@ export class DegreesService {
     return this.degreesRepository.updateDegree(updateDegreeDto);
   }
 
+  deleteDegreeComment(id:number){
+    return this.degreeCommentsRepository.delete(id);
+  }
+
   async addCoursesToDegree(courseDegreeDto: AddCourseDegreeDto){
     const {coursesIds,degreeId} = courseDegreeDto;
     const courses: Course[] = await this.coursesService.getCoursesByIds(coursesIds);

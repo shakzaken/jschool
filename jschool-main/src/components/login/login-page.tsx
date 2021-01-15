@@ -16,7 +16,7 @@ export class LoginPage extends Component<LoginPageProps,{}>{
 
   render(){
 
-    const store = this.props.rootStore.loginPageStore;
+    const store = this.props.rootStore.authStore;
     return (
       <div className="login-page">
         <h3 className="login-title">Login</h3>

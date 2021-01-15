@@ -16,8 +16,6 @@ interface DegreePageProps {
 }
 
 interface DegreePageState {
-  comments: CommentModel[];
-  courses: CourseModel[];
   formComment:string;
 }
 
@@ -48,59 +46,6 @@ export class DegreePage extends Component<DegreePageProps,DegreePageState>{
   constructor(props: DegreePageProps){
       super(props);
       this.state = {
-        comments:[
-          {
-            name:"Shak",
-            date: "22-10-2020",
-            image: avatarImage,
-            text: "This is the best degree. Deeply recommended! "
-          },
-          {
-            name:"Shak",
-            date: "22-10-2020",
-            image: avatarImage,
-            text: "This is the best degree. Deeply recommended! "
-          },
-          {
-            name:"Shak",
-            date: "22-10-2020",
-            image: avatarImage,
-            text: "This is the best degree. Deeply recommended! "
-          }
-        ],
-        courses:[
-          {
-            id:1,
-            name:"Nodejs for pros",
-            image:JavaImage,
-          },
-          {
-            id:2,
-            name:"React for pros",
-            image:JavaImage,
-          },
-          {
-            id:3,
-            name:"Vue for pros",
-            image:JavaImage,
-          },
-          {
-            id:4,
-            name:"Java for beginners",
-            image:JavaImage,
-          },
-          {
-            id:5,
-            name:"PHP for Masters",
-            image:JavaImage,
-          },
-          {
-            id:6,
-            name:"Laravel front to back",
-            image:JavaImage,
-          },
-
-        ],
         formComment:""
       };
       this.onCommentChange = this.onCommentChange.bind(this);
@@ -108,29 +53,23 @@ export class DegreePage extends Component<DegreePageProps,DegreePageState>{
     }
 
     onSubmit(value:any){
-      const newComment: CommentModel = {
-        name:"shak",
-        date: new Date().toLocaleDateString(),
-        image: avatarImage,
-        text: this.state.formComment
-      };
-      const comments = this.state.comments;
-      comments.push(newComment);
-      this.setState({comments});
+        this.store.saveDegreeComment();
     }
     onCommentChange(event: ChangeEvent<HTMLTextAreaElement> ){
-      this.setState({formComment:event.target.value});
+      const comment = event.target.value;
+      this.store.setCurrentComment(comment);
     }
 
     commentsComponents(){
       return this.store.comments.map(comment =>{
           const date = new Date(comment.date);
           return <JComment text={comment.comment}
-                    key={comment.id}
-                    date={date.toLocaleDateString()}
-                    userName={null}/>
+              key={comment.id}
+              date={date.toLocaleDateString()}
+              userName={null}
+               onDelete={(event:any) => this.store.onCommentDelete(comment.id)}
+              />
       });
-
     }
 
 
@@ -144,9 +83,6 @@ export class DegreePage extends Component<DegreePageProps,DegreePageState>{
             name={course.name}
           />
       });
-
-
-
     }
 
     render(){
@@ -157,14 +93,11 @@ export class DegreePage extends Component<DegreePageProps,DegreePageState>{
             <img src={image}></img>
           </div>
 
-
           <div className="courses-cards">
-
             <p className="title">Courses</p>
             <div className="grid">
               {this.coursesCards()}
             </div>
-
           </div>
 
           <div className="comments-section">
@@ -173,15 +106,12 @@ export class DegreePage extends Component<DegreePageProps,DegreePageState>{
               {this.commentsComponents()}
             </Comment.Group>
             <Form reply onSubmit={(value) => this.onSubmit(value)}>
-              <Form.TextArea value={this.state.formComment} onChange={this.onCommentChange}  />
+              <Form.TextArea value={this.store.currentComment} onChange={this.onCommentChange}  />
               <Button content='Add Reply' labelPosition='left' icon='edit' primary />
             </Form>
           </div>
-
         </div>
       );
     }
-
-
 
 }
