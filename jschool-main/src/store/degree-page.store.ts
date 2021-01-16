@@ -1,4 +1,4 @@
-import {observable,action} from "mobx";
+import {observable, action, computed} from "mobx";
 import {CourseModel, DegreeComment, DegreeCommentDto, DegreeImage, DegreeModel} from "../types";
 import axios, {AxiosResponse} from "axios";
 import {AuthStore} from "./auth-store";
@@ -27,6 +27,14 @@ export class DegreePageStore {
 
     constructor(authStore:AuthStore) {
         this.authStore = authStore;
+    }
+
+    @computed
+    get degreeImageSrc(){
+        if(this.images && this.images.length > 0){
+            const imageBody = this.images[0].image;
+            return `data:image/png;base64,${imageBody}`;
+        }
     }
 
 

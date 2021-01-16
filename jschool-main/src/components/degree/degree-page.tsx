@@ -88,9 +88,9 @@ export class DegreePage extends Component<DegreePageProps,DegreePageState>{
     render(){
       return (
         <div className="degree-page">
-          <h2 className="degree-page-title">Computer Science</h2>
+          <h2 className="degree-page-title">{this.store.degree && this.store.degree.name}</h2>
           <div className="degree-page-main-image">
-            <img src={image}></img>
+            <img src={this.store.degreeImageSrc}></img>
           </div>
 
           <div className="courses-cards">

@@ -29,9 +29,7 @@ export class CoursesService {
   ){}
 
 
-  getCourseCommentsById(courseId: number) : Promise<CourseComment[]>{
-    return this.courseCommentRepository.getCourseCommentsById(courseId);
-  }
+
 
   getAllCourses(){
     return this.courseRepository.getAllCourses();
@@ -48,13 +46,19 @@ export class CoursesService {
   getCoursesByIds(coursesIds:number[]): Promise<Course[]>{
     return this.courseRepository.findByIds(coursesIds);
   }
-  async createCourseComment(createCourseCommentDto,userId:number) : Promise<CourseComment> {
-    const {courseId,comment} = createCourseCommentDto;
-    const course: Course = await this.courseRepository.getCourseById(courseId);
-    const user : User = await this.userRepository.getUserById(userId);
-    const courseComment: CourseComment = await this.courseCommentRepository.createCourseComment(comment,course,user);
-    return courseComment;
+
+  async updateCourse(course:UpdateCourseDto){
+    return this.courseRepository.updateCourse(course);
   }
+
+  deleteCourseById(id:number){
+    return this.courseRepository.deleteCourseById(id);
+  }
+
+
+  /**
+   ** ---- Course Images ---
+   **/
 
   async getImagesByCourseId(courseId:number) : Promise<CourseImage>{
     return this.courseImageRepository.getImageByCourseId(courseId);
@@ -71,12 +75,25 @@ export class CoursesService {
     return result;
   }
 
-  async updateCourse(course:UpdateCourseDto){
-    return this.courseRepository.updateCourse(course);
+
+  /**
+  ** ---- Course Comments ---
+   **/
+
+  getCourseCommentsById(courseId: number) : Promise<CourseComment[]>{
+    return this.courseCommentRepository.getCourseCommentsById(courseId);
   }
 
-  deleteCourseById(id:number){
-    return this.courseRepository.deleteCourseById(id);
+  async createCourseComment(createCourseCommentDto,userId:number) : Promise<CourseComment> {
+    const {courseId,comment} = createCourseCommentDto;
+    const course: Course = await this.courseRepository.getCourseById(courseId);
+    const user : User = await this.userRepository.getUserById(userId);
+    const courseComment: CourseComment = await this.courseCommentRepository.createCourseComment(comment,course,user);
+    return courseComment;
+  }
+
+  deleteCourseCommentById(commentId:number){
+    return this.courseCommentRepository.delete(commentId);
   }
 
 

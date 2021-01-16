@@ -23,7 +23,7 @@ function App() {
               <Route exact path="/register" component={RegisterPage}/>
               <Route exact path="/" component={HomePage}/>
               <Route path="/degree/:id" component={DegreePage}/>
-              <Route path="/course" component={CoursePage}/>
+              <Route path="/course/:id" component={CoursePage}/>
             </Switch>
           <Sidebar/>
           </Router>

@@ -21,6 +21,7 @@ import {AuthGuard} from "../auth/auth.guard";
 import {FileFieldsInterceptor, FileInterceptor, FilesInterceptor} from "@nestjs/platform-express";
 import {CourseImage} from "./image/course-image.entity";
 import {UpdateCourseDto} from "./dto/update-course-dto";
+import {DeleteResult} from "typeorm";
 
 
 @UseGuards(AuthGuard)
@@ -36,17 +37,17 @@ export class CoursesController {
     return this.coursesService.getAllCourses();
   }
 
-
-  @Get("/comments/:courseId")
-  async getCourseCommentsById(@Param() params){
-    return this.coursesService.getCourseCommentsById(params.courseId);
+  @Get("/:id")
+  getCourse(@Param() params){
+    return this.coursesService.getCourseById(params.id);
   }
 
-  @Get("/images/:courseId")
-  async getImagesByCourseId(@Param() params){
-    const courseImage : CourseImage = await this.coursesService.getImagesByCourseId(params.courseId);
-    return courseImage;
+  @Post()
+  async createCourse(@Body() createCourseDto: CreateCourseDto){
+    const course :Course =  await this.coursesService.createCourse(createCourseDto);
+    return course;
   }
+
 
   @Put()
   async updateCourse(@Body() updateCourseDto: UpdateCourseDto){
@@ -55,10 +56,19 @@ export class CoursesController {
   }
 
 
-  @Post()
-  async createCourse(@Body() createCourseDto: CreateCourseDto){
-    const course :Course =  await this.coursesService.createCourse(createCourseDto);
-    return course;
+  @Delete("/:id")
+  deleteCourseById(@Param() param){
+    return this.coursesService.deleteCourseById(param.id);
+  }
+
+  /**
+  *** --- Course Images ---
+  **/
+
+  @Get("/images/:courseId")
+  async getImagesByCourseId(@Param() params){
+    const courseImage : CourseImage = await this.coursesService.getImagesByCourseId(params.courseId);
+    return courseImage;
   }
 
   @Post("/images/:courseId")
@@ -76,6 +86,14 @@ export class CoursesController {
     return res;
   }
 
+  /**
+   *** --- Course Comments ---
+   **/
+
+  @Get("/comments/:courseId")
+  async getCourseCommentsById(@Param() params){
+    return this.coursesService.getCourseCommentsById(params.courseId);
+  }
 
   @Post("/comments")
   async createCourseComment(
@@ -83,12 +101,12 @@ export class CoursesController {
       @Request() request){
     const userId = request.user.id;
     return this.coursesService.createCourseComment(createCourseCommentDto,userId);
-
   }
 
-  @Delete("/:id")
-  deleteCourseById(@Param() param){
-    return this.coursesService.deleteCourseById(param.id);
+
+  @Delete("/comments/:id")
+  deleteCourseComment(@Param() param) : Promise<DeleteResult>{
+    return this.coursesService.deleteCourseCommentById(param.id);
   }
 
 
