@@ -21,7 +21,11 @@ export class DegreeCommentsRepository extends Repository<DegreeComment>{
 
 
   async getDegreeCommentsById(degreeId: number) : Promise<DegreeComment[]>{
-    return this.find({where:{degreeId:degreeId}});
+    const comments : DegreeComment[] = await this.find({where:{degreeId:degreeId},relations:["user"]});
+    comments.forEach(comment => {
+      delete comment.user.password;
+    });
+    return comments;
   }
 
 }

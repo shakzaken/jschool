@@ -117,8 +117,8 @@ export class CoursePageStore {
             courseId: this.course.id
         };
         await axios.post("/courses/comments",commentDto);
+        this.setFormComment("");
         this.fetchCourseComments()
             .catch(err => console.log("failed to fetch course comments"));
-
     }
 }

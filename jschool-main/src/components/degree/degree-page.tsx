@@ -52,8 +52,9 @@ export class DegreePage extends Component<DegreePageProps,DegreePageState>{
       this.onSubmit = this.onSubmit.bind(this);
     }
 
-    onSubmit(value:any){
-        this.store.saveDegreeComment();
+    async onSubmit(value:any){
+        await this.store.saveDegreeComment();
+        this.store.setCurrentComment("");
     }
     onCommentChange(event: ChangeEvent<HTMLTextAreaElement> ){
       const comment = event.target.value;
@@ -66,7 +67,7 @@ export class DegreePage extends Component<DegreePageProps,DegreePageState>{
           return <JComment text={comment.comment}
               key={comment.id}
               date={date.toLocaleDateString()}
-              userName={null}
+              userName={comment.user.name}
                onDelete={(event:any) => this.store.onCommentDelete(comment.id)}
               />
       });
@@ -105,8 +106,8 @@ export class DegreePage extends Component<DegreePageProps,DegreePageState>{
             <Comment.Group>
               {this.commentsComponents()}
             </Comment.Group>
-            <Form reply onSubmit={(value) => this.onSubmit(value)}>
-              <Form.TextArea value={this.store.currentComment} onChange={this.onCommentChange}  />
+            <Form className="comments-body" reply onSubmit={(value) => this.onSubmit(value)}>
+              <Form.TextArea  value={this.store.currentComment} onChange={this.onCommentChange}  />
               <Button content='Add Reply' labelPosition='left' icon='edit' primary />
             </Form>
           </div>

@@ -3,24 +3,37 @@ import "./login-page.scss";
 import {Form,Button} from "semantic-ui-react";
 import {inject, observer} from "mobx-react";
 import {RootStore} from "../../store/root.store";
+import {AuthStore} from "../../store/auth-store";
+import {History} from "history";
 
 interface LoginPageProps {
   rootStore?:RootStore;
+  history? : History;
 }
 
 @inject("rootStore")
 @observer
 export class LoginPage extends Component<LoginPageProps,{}>{
 
+  store : AuthStore = this.props.rootStore.authStore;
+  constructor(props: LoginPageProps) {
+    super(props);
 
+    this.login = this.login.bind(this);
+  }
+
+  async login(event: any){
+    await this.store.onLogin(event);
+    this.props.history.push("/");
+  }
 
   render(){
 
-    const store = this.props.rootStore.authStore;
+    const store = this.store;
     return (
       <div className="login-page">
         <h3 className="login-title">Login</h3>
-        <Form className="form" onSubmit={event => store.onLogin(event)}>
+        <Form className="form" onSubmit={event => this.login(event)}>
           <Form.Field>
             <label>Email</label>
             <input

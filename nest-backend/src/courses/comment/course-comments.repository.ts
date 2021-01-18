@@ -27,7 +27,11 @@ export class CourseCommentsRepository extends Repository<CourseComment> {
 
 
   async getCourseCommentsById(courseId:number) : Promise<CourseComment[]>{
-    return this.find({where:{courseId:courseId}});
+    const courseComments = await this.find({where:{courseId:courseId},relations:["user"]});
+    courseComments.forEach(comment => {
+      delete comment.user.password;
+    });
+    return courseComments;
   }
 
 

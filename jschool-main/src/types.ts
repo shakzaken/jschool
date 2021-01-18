@@ -13,6 +13,7 @@ export interface DegreeComment{
   degreeId:number;
   userId:number;
   date:Date;
+  user: UserModel;
 }
 
 export interface DegreeCommentDto {
@@ -60,6 +61,7 @@ export interface CourseComment {
   courseId:number;
   comment:string;
   date:Date;
+  user: UserModel;
 }
 
 export interface CourseImage{

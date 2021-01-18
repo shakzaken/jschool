@@ -46,8 +46,8 @@ export class CoursePage extends Component<CoursePageProps,CoursePageState>{
       this.onSubmit = this.onSubmit.bind(this);
     }
 
-    onSubmit(value:any){
-      this.store.createCourseComment();
+    async onSubmit(value:any){
+      await this.store.createCourseComment();
     }
     onCommentChange(event: ChangeEvent<HTMLTextAreaElement> ){
       this.store.setFormComment(event.target.value);
@@ -58,7 +58,7 @@ export class CoursePage extends Component<CoursePageProps,CoursePageState>{
           const commentObj = new Date(comment.date);
          return <JComment text={comment.comment}
                     date={commentObj.toLocaleDateString()}
-                    userName={null}
+                    userName={comment.user.name}
                     onDelete={(event:any) => this.store.deleteCourseComment(comment.id)}
           />
       }
@@ -82,7 +82,7 @@ export class CoursePage extends Component<CoursePageProps,CoursePageState>{
             <Comment.Group>
               {this.commentsComponents()}
             </Comment.Group>
-            <Form reply onSubmit={(value) => this.onSubmit(value)}>
+            <Form className="comments-body" reply onSubmit={(value) => this.onSubmit(value)}>
               <Form.TextArea value={this.store.formComment} onChange={this.onCommentChange}  />
               <Button content='Add Reply' labelPosition='left' icon='edit' primary />
             </Form>

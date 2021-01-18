@@ -40,6 +40,7 @@ export class DegreesService {
     const degree : Degree = await this.degreesRepository.getDegreeWithCoursesAndComments(degreeId);
     const count = degree.degreeImages.length - 1;
     degree.degreeImages.splice(1,count);
+    degree.degreeComments.forEach(comment => delete comment.user.password);
     return degree;
   }
 
