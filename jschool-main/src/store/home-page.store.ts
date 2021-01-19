@@ -10,6 +10,7 @@ export class HomePageStore {
 
 
 
+
   @action.bound
   setDegrees(degrees:DegreeModel[]){
     this.degrees = degrees;

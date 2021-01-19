@@ -21,7 +21,7 @@ export class AuthService {
     const user = await this.usersService.getUserByEmail(email);
     const result = await this.validateUser(loginDto,user);
     if(!result){
-      return new UnauthorizedException();
+      throw new UnauthorizedException();
     }
     const payload = {
       id: user.id,

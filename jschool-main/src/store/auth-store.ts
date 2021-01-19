@@ -1,19 +1,12 @@
 import {action, computed, observable} from "mobx";
 import {LoginResponse, UserModel} from "../types";
 import axios, {AxiosResponse} from "axios";
+import {MessageStore, MessageType} from "./message-store";
+import {History} from "history";
 
 export class AuthStore {
 
-
-  constructor(){
-    const token = localStorage.getItem("token");
-    if(token){
-      const user = JSON.parse(localStorage.getItem("user"));
-      this.setUser(user);
-      this.setToken(token);
-      axios.defaults.headers["Authorization"] = token;
-    }
-  }
+  messageStore:MessageStore;
 
   @observable
   user:UserModel = null;
@@ -26,6 +19,19 @@ export class AuthStore {
 
   @observable
   token:string = "";
+
+
+
+  constructor(messageStore:MessageStore){
+    this.messageStore = messageStore;
+    const token = localStorage.getItem("token");
+    if(token){
+      const user = JSON.parse(localStorage.getItem("user"));
+      this.setUser(user);
+      this.setToken(token);
+      axios.defaults.headers["Authorization"] = token;
+    }
+  }
 
   @action.bound
   setEmail(email:string){
@@ -53,28 +59,31 @@ export class AuthStore {
   }
 
 
-  async onLogin(event:any){
-    event.preventDefault();
+  async onLogin(history:History){
 
     const loginData = {
       email:this.email,
       password: this.password
     };
+    try{
+      const res : AxiosResponse<LoginResponse> = await axios.post("/auth/login",loginData);
+      this.setUser(res.data.user);
+      this.setToken(res.data.token);
+      axios.defaults.headers["Authorization"] = res.data.token;
+      localStorage.setItem("token",res.data.token);
+      localStorage.setItem("user",JSON.stringify(res.data.user));
+      this.messageStore.displayMessage("You are successfully logged in",MessageType.SUCCESS);
+      history.push("/");
+    }catch (err){
+      this.messageStore.displayMessage("Login Failed",MessageType.ERROR);
+    }
 
-    const res : AxiosResponse<LoginResponse> = await axios.post("/auth/login",loginData);
-    this.setUser(res.data.user);
-    this.setToken(res.data.token);
-    axios.defaults.headers["Authorization"] = res.data.token;
-    localStorage.setItem("token",res.data.token);
-    localStorage.setItem("user",JSON.stringify(res.data.user));
   }
 
   @action.bound
   logout(){
-
     this.user = null;
     this.token = null;
     localStorage.clear();
-    console.log("logout");
   }
 }

@@ -10,6 +10,7 @@ import {LoginPage} from "./components/login/login-page";
 import {RegisterPage} from "./components/register/register-page";
 import {Provider} from "mobx-react";
 import {RootStore} from "./store/root.store";
+import {JMessage} from "./components/Jmessage/j-message";
 
 function App() {
   const store = new RootStore();
@@ -18,17 +19,17 @@ function App() {
         <Provider rootStore={store}>
           <Router>
           <Navbar/>
+            <JMessage/>
             <Switch>
               <Route exact path="/login" component={LoginPage}/>
               <Route exact path="/register" component={RegisterPage}/>
-              <Route exact path="/" component={HomePage}/>
+              <Route exact path="/home" component={HomePage}/>
               <Route path="/degree/:id" component={DegreePage}/>
               <Route path="/course/:id" component={CoursePage}/>
             </Switch>
           <Sidebar/>
           </Router>
         </Provider>
-
       </div>
     );
 }

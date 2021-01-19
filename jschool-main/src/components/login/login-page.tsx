@@ -18,13 +18,18 @@ export class LoginPage extends Component<LoginPageProps,{}>{
   store : AuthStore = this.props.rootStore.authStore;
   constructor(props: LoginPageProps) {
     super(props);
-
     this.login = this.login.bind(this);
   }
 
+  componentDidMount() {
+    if(this.store.isLoggedIn){
+      this.props.history.push("/home");
+    }
+  }
+
   async login(event: any){
-    await this.store.onLogin(event);
-    this.props.history.push("/");
+    event.preventDefault();
+    await this.store.onLogin(this.props.history);
   }
 
   render(){

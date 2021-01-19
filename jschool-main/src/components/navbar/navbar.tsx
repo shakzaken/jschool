@@ -29,7 +29,7 @@ export class Navbar extends Component<NavbarProps,{}> {
     return (
     <div className="navbar">
       <div className="navbar-left-links">
-        <Link to="/">Home</Link>
+        <Link to="/home">Home</Link>
       </div>
       <h2 className="title">Jschool</h2>
       <div className="navbar-right-links">
