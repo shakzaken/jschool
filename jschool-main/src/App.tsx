@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {Navbar} from "./components/navbar/navbar";
+import Navbar from "./components/navbar/navbar";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {DegreePage} from "./components/degree/degree-page";
 import {HomePage} from "./components/home/home-page";
@@ -21,9 +21,9 @@ function App() {
           <Navbar/>
             <JMessage/>
             <Switch>
+              <Route exact path="/" component={HomePage}/>
               <Route exact path="/login" component={LoginPage}/>
               <Route exact path="/register" component={RegisterPage}/>
-              <Route exact path="/home" component={HomePage}/>
               <Route path="/degree/:id" component={DegreePage}/>
               <Route path="/course/:id" component={CoursePage}/>
             </Switch>

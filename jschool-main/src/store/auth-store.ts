@@ -81,9 +81,11 @@ export class AuthStore {
   }
 
   @action.bound
-  logout(){
+  logout(history: History){
     this.user = null;
     this.token = null;
     localStorage.clear();
+    history.push("/login");
+
   }
 }

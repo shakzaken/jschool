@@ -21,6 +21,9 @@ export class AuthStore {
   @observable
   user:User;
 
+  @observable
+  loginErrorMessage: boolean = false;
+
   messageStore:MessageStore;
 
   constructor(messageStore : MessageStore){
@@ -48,6 +51,11 @@ export class AuthStore {
   @action.bound
   setUser(user:User){
     this.user = user;
+  }
+
+  @action.bound
+  setLoginErrorMessage(loginErrorMessage:boolean){
+    this.loginErrorMessage = loginErrorMessage;
   }
 
   @action.bound

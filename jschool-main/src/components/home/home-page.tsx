@@ -3,7 +3,7 @@ import {DegreeCard} from "./degree-card/degree-card";
 import "./home.scss";
 import {observer,inject} from "mobx-react";
 import {RootStore} from "../../store/root.store";
-
+import {History} from "history";
 interface HomePageState {
   degrees:any[];
 }
@@ -11,6 +11,7 @@ interface HomePageState {
 
 interface HomePageProps {
   rootStore?:RootStore;
+  history: History;
 }
 
 @inject("rootStore")
@@ -18,9 +19,15 @@ interface HomePageProps {
 export class HomePage extends Component<HomePageProps,HomePageState>{
 
   store = this.props.rootStore.homePageStore;
+  authStore = this.props.rootStore.authStore;
 
   componentDidMount(){
-    this.store.fetchDegrees();
+    if(this.authStore.isLoggedIn){
+        this.store.fetchDegrees();
+    }else{
+        this.props.history.push("/login");
+    }
+
   }
 
 

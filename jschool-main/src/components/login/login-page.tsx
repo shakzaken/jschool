@@ -23,7 +23,7 @@ export class LoginPage extends Component<LoginPageProps,{}>{
 
   componentDidMount() {
     if(this.store.isLoggedIn){
-      this.props.history.push("/home");
+      this.props.history.push("/");
     }
   }
 

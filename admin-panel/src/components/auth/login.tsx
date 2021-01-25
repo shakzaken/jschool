@@ -1,9 +1,10 @@
 import React from "react";
-import {Button, Form} from "semantic-ui-react";
-import {observer,inject} from "mobx-react";
+import {Button, Form, Message} from "semantic-ui-react";
+import {inject, observer} from "mobx-react";
 import {RootStore} from "../../store/root-store";
 import "./login.scss";
 import {History} from "history";
+import {MessageType} from "../../store/message-store";
 
 
 interface LoginProps {
@@ -15,6 +16,8 @@ interface LoginProps {
 @inject("rootStore")
 @observer
 export class Login extends React.Component<LoginProps,{}>{
+
+  authStore = this.props.rootStore.authStore;
 
   constructor(props: any){
     super(props);
@@ -29,18 +32,29 @@ export class Login extends React.Component<LoginProps,{}>{
       this.props.history.push("/");
     }catch(err){
       console.error("Login failed");
+      this.authStore.setLoginErrorMessage(true);
+      setTimeout(() => {
+        this.authStore.setLoginErrorMessage(false)
+      },3000);
     }
 
   }
 
 
-
+  showErrorMessage(){
+    if(this.authStore.loginErrorMessage){
+      return <Message error header='Login Failed'/>
+    }else{
+      return <span></span>
+    };
+  }
 
   render(){
     const authStore = this.props.rootStore.authStore;
     const history = this.props.history;
     return (
       <div className="login-component">
+        {this.showErrorMessage()}
         <h3>Login</h3>
         <Form>
           <Form.Field>
