@@ -36,16 +36,13 @@ export class DegreesService {
   }
 
 
-  async getDegreeWithCoursesAndComments(degreeId:number) : Promise<Degree>{
-    const degree : Degree = await this.degreesRepository.getDegreeWithCoursesAndComments(degreeId);
-    const count = degree.degreeImages.length - 1;
-    degree.degreeImages.splice(1,count);
-    degree.degreeComments.forEach(comment => delete comment.user.password);
+  async getDegree(degreeId:number) : Promise<Degree>{
+    const degree : Degree = await this.degreesRepository.getDegree(degreeId);
     return degree;
   }
 
-  async getDegreeWithCourses(degreeId:number) : Promise<Degree>{
-    return this.degreesRepository.getDegreeWithCourses(degreeId);
+  async getDegreeCourses(degreeId:number) : Promise<Course[]>{
+    return this.degreesRepository.getDegreeCourses(degreeId);
   }
   async getAllDegreesWithImage() : Promise<Degree[]>{
 

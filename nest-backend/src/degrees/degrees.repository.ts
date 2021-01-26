@@ -19,17 +19,14 @@ export class DegreesRepository extends Repository<Degree> {
     return this.find({relations:["degreeImages"]});
   }
 
-  async getDegreeWithCoursesAndComments(degreeId:number){
-    const degree :Degree = await this.findOne({id:degreeId},
-        {relations:[
-            "courses","courses.courseImages",
-            "degreeComments","degreeComments.user","degreeImages"]});
+  async getDegree(degreeId:number){
+    const degree :Degree = await this.findOne({id:degreeId});
     return degree;
   }
 
-  async getDegreeWithCourses(degreeId:number){
-    const degree :Degree = await this.findOne({id:degreeId},{relations:["courses"]});
-    return degree;
+  async getDegreeCourses(degreeId:number){
+    const degree :Degree = await this.findOne({id:degreeId},{relations:["courses","courses.courseImages"]});
+    return degree.courses;
   }
 
 

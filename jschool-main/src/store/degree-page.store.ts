@@ -45,22 +45,43 @@ export class DegreePageStore {
 
 
     @action.bound
-    setDegreeFields(degreeData:DegreeModel){
-        this.courses = degreeData.courses;
-        this.images = degreeData.degreeImages;
-        this.comments = degreeData.degreeComments;
-        const degree = {
-            id: degreeData.id,
-            name:degreeData.name,
-            description:degreeData.description
-        };
-        this.degree = degree;
+    setDegreeFields(degreeModel:DegreeModel,degreeImages:DegreeImage[],
+                    degreeComments:DegreeComment[],degreeCourses:CourseModel[]){
+        this.setDegreeModel(degreeModel);
+        this.setDegreeImage(degreeImages);
+        this.setDegreeComments(degreeComments);
+        this.setDegreeCourses(degreeCourses);
+
+    }
+
+    @action.bound
+    setDegreeModel(degreeModel:DegreeModel){
+        this.degree = degreeModel;
+    }
+
+    @action.bound
+    setDegreeImage(degreeImages:DegreeImage[]){
+        this.images = degreeImages;
+    }
+
+    @action.bound
+    setDegreeComments(degreeComments:DegreeComment[]){
+        this.comments = degreeComments;
+    }
+
+    @action.bound
+    setDegreeCourses(degreeCourses: CourseModel[]){
+        this.courses = degreeCourses;
     }
 
     async fetchDegreeData(degreeId:number){
-        const response : AxiosResponse<DegreeModel> = await axios.get(`degrees/${degreeId}`);
-        const degreeData :DegreeModel = response.data;
-        this.setDegreeFields(degreeData);
+        const degreeResponse : AxiosResponse<DegreeModel> = await axios.get(`degrees/${degreeId}`);
+        const degreeImage: AxiosResponse<DegreeImage[]> = await axios.get(`degrees/images/${degreeId}`);
+        const degreeComments : AxiosResponse<DegreeComment[]> = await axios.get(`degrees/comments/${degreeId}`);
+        const degreeCourses : AxiosResponse<CourseModel[]> = await axios.get(`degrees/courses/${degreeId}`);
+
+        const degreeData :DegreeModel = degreeResponse.data;
+        this.setDegreeFields(degreeData,degreeImage.data,degreeComments.data,degreeCourses.data);
     }
 
     async saveDegreeComment(){

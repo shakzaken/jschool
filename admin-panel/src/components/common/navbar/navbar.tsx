@@ -19,6 +19,15 @@ export class Navbar extends React.Component<NavbarProps,{}> {
     return <span>{email}</span>;
   }
 
+  renderLogout(){
+    const authStore = this.props.rootStore.authStore;
+    if(authStore.isAuthenticate){
+        return <a onClick={event => authStore.logout(event)} href="#">Logout</a>;
+    }else{
+        return null;
+    }
+  }
+
 
   render(){
     const authStore = this.props.rootStore.authStore;
@@ -26,7 +35,7 @@ export class Navbar extends React.Component<NavbarProps,{}> {
       <div className="navbar">
         <h3 className="title">Admin Panel</h3>
         <p className="email">{this.renderEmail()}</p>
-        <div className="logout"><a onClick={event => authStore.logout(event)} href="#">Logout</a></div>
+        <div className="logout">{this.renderLogout()}</div>
       </div>
     )
   }

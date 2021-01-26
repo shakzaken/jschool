@@ -41,12 +41,12 @@ export class DegreesController {
   }
 
   @Get("/:id")
-  getFullDegree(@Param() param){
-    return this.degreesService.getDegreeWithCoursesAndComments(param.id);
+  getDegree(@Param() param){
+    return this.degreesService.getDegree(param.id);
   }
   @Get("/courses/:degreeId")
-  getDegreeWithCourses(@Param() param){
-    return this.degreesService.getDegreeWithCourses(param.degreeId);
+  getDegreeCourses(@Param() param){
+    return this.degreesService.getDegreeCourses(param.degreeId);
   }
 
   @Get("/comments/:degreeId")
