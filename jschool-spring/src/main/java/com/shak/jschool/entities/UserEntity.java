@@ -1,7 +1,10 @@
 package com.shak.jschool.entities;
 
 
+import com.shak.jschool.entities.course.CourseCommentEntity;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "users")
 public class UserEntity {
@@ -18,6 +21,9 @@ public class UserEntity {
 
     @Column
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    private List<CourseCommentEntity> courseComments;
 
     public Long getId() {
         return id;

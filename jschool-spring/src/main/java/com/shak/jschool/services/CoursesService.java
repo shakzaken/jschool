@@ -4,7 +4,7 @@ package com.shak.jschool.services;
 import com.shak.jschool.api.responses.DeleteResponse;
 import com.shak.jschool.api.responses.DeleteStatus;
 import com.shak.jschool.dtos.CourseDto;
-import com.shak.jschool.entities.CourseEntity;
+import com.shak.jschool.entities.course.CourseEntity;
 import com.shak.jschool.repositories.CoursesRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,5 +78,7 @@ public class CoursesService {
         DeleteResponse response = new DeleteResponse(DeleteStatus.SUCCESS,"Course deleted successfully");
         return response;
     }
+
+
 
 }

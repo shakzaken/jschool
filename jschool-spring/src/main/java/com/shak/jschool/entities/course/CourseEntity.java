@@ -1,7 +1,8 @@
-package com.shak.jschool.entities;
+package com.shak.jschool.entities.course;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "courses")
 public class CourseEntity {
@@ -15,6 +16,9 @@ public class CourseEntity {
 
     @Column
     private String description;
+
+    @OneToMany(mappedBy = "course")
+    List<CourseCommentEntity> courseComments;
 
     public Long getId() {
         return id;

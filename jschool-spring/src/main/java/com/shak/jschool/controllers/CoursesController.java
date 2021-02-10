@@ -2,7 +2,9 @@ package com.shak.jschool.controllers;
 
 
 import com.shak.jschool.api.responses.DeleteResponse;
+import com.shak.jschool.dtos.CourseCommentDto;
 import com.shak.jschool.dtos.CourseDto;
+import com.shak.jschool.services.CoursesCommentsService;
 import com.shak.jschool.services.CoursesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,9 @@ public class CoursesController {
 
     @Autowired
     CoursesService coursesService;
+
+    @Autowired
+    CoursesCommentsService coursesCommentsService;
 
     @GetMapping
     public List<CourseDto> getAllCourses(){
@@ -42,6 +47,26 @@ public class CoursesController {
     @DeleteMapping("/{id}")
     public DeleteResponse deleteCourse(@PathVariable Long id){
         DeleteResponse response = coursesService.deleteCourse(id);
+        return response;
+    }
+
+    /*------- Course Comments ---------- */
+
+    @GetMapping("/{courseId}/comments")
+    public List<CourseCommentDto> getCourseComments(@PathVariable Long courseId){
+        List<CourseCommentDto> commentDtos = coursesCommentsService.getCommentsByCourseId(courseId);
+        return commentDtos;
+    }
+
+    @PostMapping("/comments")
+    public CourseCommentDto createCourseComment(@RequestBody CourseCommentDto commentDto){
+        CourseCommentDto createdComment = coursesCommentsService.createComment(commentDto);
+        return createdComment;
+    }
+
+    @DeleteMapping("/comments/{commentId}")
+    public DeleteResponse deleteComment(@PathVariable Long commentId){
+        DeleteResponse response = coursesCommentsService.deleteComment(commentId);
         return response;
     }
 }
