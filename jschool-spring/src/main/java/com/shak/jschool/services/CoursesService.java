@@ -33,7 +33,7 @@ public class CoursesService {
         Optional<CourseEntity> optionalCourseEntity = coursesRepository.findById(id);
         CourseEntity courseEntity = optionalCourseEntity.get();
         if(courseEntity == null)
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST,"Course not found");
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND,"Course id not found");
         CourseDto courseDto = mapper.map(courseEntity,CourseDto.class);
         return courseDto;
     }
