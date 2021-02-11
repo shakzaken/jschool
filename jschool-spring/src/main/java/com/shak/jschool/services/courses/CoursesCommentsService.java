@@ -1,4 +1,4 @@
-package com.shak.jschool.services;
+package com.shak.jschool.services.courses;
 
 
 import com.shak.jschool.api.exceptions.JException;

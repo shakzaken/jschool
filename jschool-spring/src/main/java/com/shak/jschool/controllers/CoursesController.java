@@ -1,11 +1,14 @@
 package com.shak.jschool.controllers;
 
 
+import com.shak.jschool.api.requests.CourseImagesRequest;
 import com.shak.jschool.api.responses.DeleteResponse;
 import com.shak.jschool.dtos.CourseCommentDto;
 import com.shak.jschool.dtos.CourseDto;
-import com.shak.jschool.services.CoursesCommentsService;
-import com.shak.jschool.services.CoursesService;
+import com.shak.jschool.dtos.CourseImageDto;
+import com.shak.jschool.services.courses.CoursesCommentsService;
+import com.shak.jschool.services.courses.CoursesImagesService;
+import com.shak.jschool.services.courses.CoursesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +23,9 @@ public class CoursesController {
 
     @Autowired
     CoursesCommentsService coursesCommentsService;
+
+    @Autowired
+    CoursesImagesService coursesImagesService;
 
     @GetMapping
     public List<CourseDto> getAllCourses(){
@@ -69,4 +75,20 @@ public class CoursesController {
         DeleteResponse response = coursesCommentsService.deleteComment(commentId);
         return response;
     }
+
+
+    /* -------- Course images ------------ */
+
+    @GetMapping("/{courseId}/images")
+    public List<CourseImageDto> getCourseImages(@PathVariable Long courseId){
+        List<CourseImageDto> courseImageDtos = coursesImagesService.getCourseImages(courseId);
+        return courseImageDtos;
+    }
+
+    @PostMapping("/images")
+    public List<CourseImageDto> createOrReplaceCourseImages(@RequestBody CourseImagesRequest imagesRequest){
+        List<CourseImageDto> courseImageDtos = coursesImagesService.createAndReplaceCourseImage(imagesRequest);
+        return courseImageDtos;
+    }
+
 }

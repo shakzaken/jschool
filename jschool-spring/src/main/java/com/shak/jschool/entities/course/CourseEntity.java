@@ -17,8 +17,11 @@ public class CourseEntity {
     @Column
     private String description;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course",fetch = FetchType.LAZY)
     List<CourseCommentEntity> courseComments;
+
+    @OneToMany(mappedBy = "course",fetch = FetchType.LAZY)
+    List<CourseImageEntity> courseImages;
 
     public Long getId() {
         return id;

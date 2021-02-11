@@ -1,6 +1,7 @@
 package com.shak.jschool.entities.degree;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class DegreeEntity {
@@ -14,6 +15,9 @@ public class DegreeEntity {
 
     @Column
     private String description;
+
+    @OneToMany(mappedBy = "degree",fetch = FetchType.LAZY)
+    public List<DegreeCommentEntity> comments;
 
     public Long getId() {
         return id;
