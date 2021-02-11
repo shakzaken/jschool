@@ -1,6 +1,7 @@
 package com.shak.jschool.services;
 
 
+import com.shak.jschool.api.exceptions.JException;
 import com.shak.jschool.api.responses.DeleteResponse;
 import com.shak.jschool.api.responses.DeleteStatus;
 import com.shak.jschool.dtos.CourseCommentDto;
@@ -47,11 +48,11 @@ public class CoursesCommentsService {
         commentEntity.setDate(date);
         Optional<CourseEntity> optionalCourseEntity = coursesRepository.findById(commentDto.getCourseId());
         if(optionalCourseEntity.isPresent() == false){
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST,"Course Id not found");
+            throw new JException(HttpStatus.BAD_REQUEST,"Course Id not found");
         }
         Optional<UserEntity> optionalUserEntity  = usersRepository.findById(commentDto.getUserId());
         if(optionalUserEntity.isPresent() == false){
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST,"User is not found");
+            throw new JException(HttpStatus.BAD_REQUEST,"User is not found");
         }
         commentEntity.setUser(optionalUserEntity.get());
         commentEntity.setCourseEntity(optionalCourseEntity.get());
@@ -75,7 +76,7 @@ public class CoursesCommentsService {
     public DeleteResponse deleteComment(Long id){
         CourseCommentEntity commentEntity = courseCommentRepository.findById(id).get();
         if(commentEntity == null){
-            throw new HttpClientErrorException(HttpStatus.NOT_FOUND,"Comment id not found");
+            throw new JException(HttpStatus.NOT_FOUND,"Comment id not found");
         }
         courseCommentRepository.delete(commentEntity);
         DeleteResponse response = new DeleteResponse(DeleteStatus.SUCCESS,"Comment deleted successfully");

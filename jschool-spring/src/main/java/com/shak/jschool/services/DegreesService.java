@@ -1,6 +1,7 @@
 package com.shak.jschool.services;
 
 
+import com.shak.jschool.api.exceptions.JException;
 import com.shak.jschool.api.responses.DeleteResponse;
 import com.shak.jschool.api.responses.DeleteStatus;
 import com.shak.jschool.dtos.DegreeDto;
@@ -34,7 +35,7 @@ public class DegreesService {
         Optional<DegreeEntity> optionalDegreeEntity = degreesRepository.findById(id);
         DegreeEntity degreeEntity = optionalDegreeEntity.get();
         if(degreeEntity == null){
-            throw new HttpClientErrorException(HttpStatus.NOT_FOUND,"Id is invalid");
+            throw new JException(HttpStatus.NOT_FOUND,"Id is invalid");
         }
         DegreeDto degreeDto = modelMapper.map(degreeEntity,DegreeDto.class);
         return degreeDto;
@@ -60,7 +61,7 @@ public class DegreesService {
         Optional<DegreeEntity> optionalDegreeEntity = degreesRepository.findById(degreeDto.getId());
         DegreeEntity degreeEntity = optionalDegreeEntity.get();
         if(degreeEntity == null){
-            throw new HttpClientErrorException(HttpStatus.NOT_FOUND,"Degree not found");
+            throw new JException(HttpStatus.NOT_FOUND,"Degree not found");
         }
         degreeEntity.setName(degreeDto.getName());
         degreeEntity.setDescription(degreeDto.getDescription());
@@ -74,7 +75,7 @@ public class DegreesService {
         Optional<DegreeEntity> optionalDegreeEntity = degreesRepository.findById(id);
         DegreeEntity degreeEntity = optionalDegreeEntity.get();
         if(degreeEntity == null){
-            throw new HttpClientErrorException(HttpStatus.NOT_FOUND,"Id is Invalid");
+            throw new JException(HttpStatus.NOT_FOUND,"Id is Invalid");
         }
         degreesRepository.delete(degreeEntity);
 

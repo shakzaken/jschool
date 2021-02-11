@@ -1,5 +1,6 @@
 package com.shak.jschool.services;
 
+import com.shak.jschool.api.exceptions.JException;
 import com.shak.jschool.api.responses.DeleteResponse;
 import com.shak.jschool.api.responses.DeleteStatus;
 import com.shak.jschool.dtos.UserDto;
@@ -39,6 +40,9 @@ public class UsersService {
     public UserDto getUserById(Long id){
 
         Optional<UserEntity> optionalUserEntity = usersRepository.findById(id);
+        if(optionalUserEntity.isPresent() == false){
+            throw new JException(HttpStatus.NOT_FOUND,"User Id not found");
+        }
         UserEntity userEntity = optionalUserEntity.get();
         UserDto userDto = modelMapper.map(userEntity,UserDto.class);
         return userDto;
@@ -56,6 +60,9 @@ public class UsersService {
 
     public UserDto updateUser(UserDto userDto){
         Optional<UserEntity> optionalUserEntity = usersRepository.findById(userDto.getId());
+        if(optionalUserEntity.isPresent() == false){
+            throw new JException(HttpStatus.BAD_REQUEST,"User Id not found");
+        }
         UserEntity userEntity = optionalUserEntity.get();
         userEntity.setEmail(userDto.getEmail());
         userEntity.setName(userDto.getName());
@@ -68,7 +75,7 @@ public class UsersService {
         Optional<UserEntity> optionalUserEntity = usersRepository.findById(id);
         UserEntity userEntity = optionalUserEntity.get();
         if(userEntity == null){
-            throw new HttpClientErrorException(HttpStatus.NOT_FOUND,"User not found");
+            throw new JException(HttpStatus.NOT_FOUND,"User not found");
         }
         usersRepository.delete(userEntity);
         DeleteResponse response = new DeleteResponse(DeleteStatus.SUCCESS,"User deleted successfully");

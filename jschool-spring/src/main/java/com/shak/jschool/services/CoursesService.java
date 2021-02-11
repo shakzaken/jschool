@@ -1,6 +1,7 @@
 package com.shak.jschool.services;
 
 
+import com.shak.jschool.api.exceptions.JException;
 import com.shak.jschool.api.responses.DeleteResponse;
 import com.shak.jschool.api.responses.DeleteStatus;
 import com.shak.jschool.dtos.CourseDto;
@@ -42,7 +43,7 @@ public class CoursesService {
         Optional<CourseEntity> optionalCourseEntity = coursesRepository.findById(id);
         CourseEntity courseEntity = optionalCourseEntity.get();
         if(courseEntity == null)
-            throw new HttpClientErrorException(HttpStatus.NOT_FOUND,"Course id not found");
+            throw new JException(HttpStatus.NOT_FOUND,"Course id not found");
         CourseDto courseDto = mapper.map(courseEntity,CourseDto.class);
         return courseDto;
     }
@@ -59,7 +60,7 @@ public class CoursesService {
         Optional<CourseEntity> optionalCourseEntity = coursesRepository.findById(courseDto.getId());
         CourseEntity courseEntity = optionalCourseEntity.get();
         if(courseEntity == null){
-            throw new HttpClientErrorException(HttpStatus.NOT_FOUND,"Course not found");
+            throw new JException(HttpStatus.NOT_FOUND,"Course not found");
         }
         courseEntity.setName(courseDto.getName());
         courseEntity.setDescription(courseDto.getDescription());
@@ -72,7 +73,7 @@ public class CoursesService {
         Optional<CourseEntity> optionalCourseEntity = coursesRepository.findById(id);
         CourseEntity courseEntity = optionalCourseEntity.get();
         if(courseEntity == null){
-            throw new HttpClientErrorException(HttpStatus.NOT_FOUND,"Course id not found");
+            throw new JException(HttpStatus.NOT_FOUND,"Course id not found");
         }
         coursesRepository.delete(courseEntity);
         DeleteResponse response = new DeleteResponse(DeleteStatus.SUCCESS,"Course deleted successfully");
