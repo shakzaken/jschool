@@ -1,4 +1,4 @@
-package com.shak.jschool.entities;
+package com.shak.jschool.entities.degree;
 
 import javax.persistence.*;
 

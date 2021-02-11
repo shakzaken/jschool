@@ -1,6 +1,6 @@
 package com.shak.jschool.repositories;
 
-import com.shak.jschool.entities.DegreeEntity;
+import com.shak.jschool.entities.degree.DegreeEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
