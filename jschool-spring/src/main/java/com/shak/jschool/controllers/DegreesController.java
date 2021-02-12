@@ -1,12 +1,14 @@
 package com.shak.jschool.controllers;
 
 
+import com.shak.jschool.api.requests.DegreeImagesRequest;
 import com.shak.jschool.api.responses.DeleteResponse;
 import com.shak.jschool.dtos.DegreeCommentDto;
 import com.shak.jschool.dtos.DegreeDto;
-import com.shak.jschool.repositories.DegreesRepository;
-import com.shak.jschool.services.DegreesCommentsService;
-import com.shak.jschool.services.DegreesService;
+import com.shak.jschool.dtos.DegreeImageDto;
+import com.shak.jschool.services.degrees.DegreesCommentsService;
+import com.shak.jschool.services.degrees.DegreesImagesService;
+import com.shak.jschool.services.degrees.DegreesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,9 @@ public class DegreesController {
 
     @Autowired
     DegreesCommentsService degreesCommentsService;
+
+    @Autowired
+    DegreesImagesService degreesImagesService;
 
     @GetMapping(value = "/{id}")
     public DegreeDto getDegreeById(@PathVariable Long id){
@@ -70,5 +75,19 @@ public class DegreesController {
     public DeleteResponse deleteDegreeComment(@PathVariable Long commentId){
         DeleteResponse response = degreesCommentsService.deleteComment(commentId);
         return response;
+    }
+
+    /*----- Degree Images -----*/
+
+    @GetMapping("/{degreeId}/images")
+    public List<DegreeImageDto> getDegreeImages(@PathVariable Long degreeId){
+        List<DegreeImageDto> imageDtos = degreesImagesService.getAllDegreeImages(degreeId);
+        return imageDtos;
+    }
+
+    @PostMapping("/images")
+    public List<DegreeImageDto> createOrReplaceDegreeImages(@RequestBody DegreeImagesRequest request){
+        List<DegreeImageDto> imageDtos = degreesImagesService.createOrReplaceDegreeImages(request);
+        return imageDtos;
     }
 }

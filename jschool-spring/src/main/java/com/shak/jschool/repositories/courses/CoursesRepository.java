@@ -1,4 +1,4 @@
-package com.shak.jschool.repositories;
+package com.shak.jschool.repositories.courses;
 
 import com.shak.jschool.entities.course.CourseEntity;
 import org.springframework.data.repository.CrudRepository;

@@ -1,15 +1,14 @@
-package com.shak.jschool.services;
+package com.shak.jschool.services.degrees;
 
 import com.shak.jschool.api.exceptions.JException;
 import com.shak.jschool.api.responses.DeleteResponse;
 import com.shak.jschool.api.responses.DeleteStatus;
 import com.shak.jschool.dtos.DegreeCommentDto;
 import com.shak.jschool.entities.UserEntity;
-import com.shak.jschool.entities.course.CourseEntity;
 import com.shak.jschool.entities.degree.DegreeCommentEntity;
 import com.shak.jschool.entities.degree.DegreeEntity;
-import com.shak.jschool.repositories.DegreesCommentsRepository;
-import com.shak.jschool.repositories.DegreesRepository;
+import com.shak.jschool.repositories.degrees.DegreesCommentsRepository;
+import com.shak.jschool.repositories.degrees.DegreesRepository;
 import com.shak.jschool.repositories.UsersRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

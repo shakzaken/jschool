@@ -6,12 +6,11 @@ import com.shak.jschool.api.responses.DeleteResponse;
 import com.shak.jschool.api.responses.DeleteStatus;
 import com.shak.jschool.dtos.CourseDto;
 import com.shak.jschool.entities.course.CourseEntity;
-import com.shak.jschool.repositories.CoursesRepository;
+import com.shak.jschool.repositories.courses.CoursesRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;

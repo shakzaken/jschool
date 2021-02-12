@@ -8,14 +8,13 @@ import com.shak.jschool.dtos.CourseCommentDto;
 import com.shak.jschool.entities.UserEntity;
 import com.shak.jschool.entities.course.CourseCommentEntity;
 import com.shak.jschool.entities.course.CourseEntity;
-import com.shak.jschool.repositories.CourseCommentRepository;
-import com.shak.jschool.repositories.CoursesRepository;
+import com.shak.jschool.repositories.courses.CourseCommentRepository;
+import com.shak.jschool.repositories.courses.CoursesRepository;
 import com.shak.jschool.repositories.UsersRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.Date;

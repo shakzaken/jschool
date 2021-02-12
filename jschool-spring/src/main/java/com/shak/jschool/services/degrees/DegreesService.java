@@ -1,4 +1,4 @@
-package com.shak.jschool.services;
+package com.shak.jschool.services.degrees;
 
 
 import com.shak.jschool.api.exceptions.JException;
@@ -6,13 +6,12 @@ import com.shak.jschool.api.responses.DeleteResponse;
 import com.shak.jschool.api.responses.DeleteStatus;
 import com.shak.jschool.dtos.DegreeDto;
 import com.shak.jschool.entities.degree.DegreeEntity;
-import com.shak.jschool.repositories.DegreesRepository;
+import com.shak.jschool.repositories.degrees.DegreesRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
