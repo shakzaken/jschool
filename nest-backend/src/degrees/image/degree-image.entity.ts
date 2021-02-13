@@ -13,7 +13,7 @@ export class DegreeImage{
   @Column()
   degreeId:number;
 
-  @ManyToOne(type => Degree)
+  @ManyToOne(type => Degree,{onDelete: 'CASCADE' })
   degree: Degree;
 
 

@@ -16,14 +16,14 @@ export class DegreeComment{
   @Column()
   degreeId:number;
 
-  @ManyToOne(type => Degree)
+  @ManyToOne(type => Degree,{onDelete: 'CASCADE' })
   degree:Degree;
 
 
   @Column()
   userId:number;
 
-  @ManyToOne(type => User)
+  @ManyToOne(type => User,{onDelete: 'CASCADE' })
   user: User;
 
   @Column()

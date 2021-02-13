@@ -12,7 +12,7 @@ export class CourseImage {
   image: string;
 
 
-  @ManyToOne(type => Course)
+  @ManyToOne(type => Course,{onDelete: 'CASCADE' })
   course: Course;
 
   @Column()

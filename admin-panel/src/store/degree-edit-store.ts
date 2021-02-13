@@ -158,7 +158,7 @@ export class DegreeEditStore{
     const degreeId = this.degree && this.degree.id;
     const allCoursesReponse : AxiosResponse<any> = await axios.get("courses");
     const selectedCoursesResponse : AxiosResponse<any> = await axios.get(`degrees/courses/${degreeId}`);
-    this.setCoursesAndSelectedCourses(allCoursesReponse.data,selectedCoursesResponse.data.courses);
+    this.setCoursesAndSelectedCourses(allCoursesReponse.data,selectedCoursesResponse.data);
   }
 
   async fetchAllCourses(){

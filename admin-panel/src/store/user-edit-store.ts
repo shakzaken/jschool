@@ -93,7 +93,9 @@ export class UserEditStore {
     const userId = this.user && this.user.id;
     const result = await axios.get(`users/images/${userId}`);
     const imageData = result.data[0];
-    this.setImageSrc(`data:image/png;base64,${imageData.image}`)
+    if(imageData){
+      this.setImageSrc(`data:image/png;base64,${imageData.image}`);
+    }
   }
 
 

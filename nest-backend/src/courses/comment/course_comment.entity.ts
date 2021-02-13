@@ -9,7 +9,7 @@ export class CourseComment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(type => Course)
+  @ManyToOne(type => Course,{onDelete: 'CASCADE' })
   course:Course;
 
   @Column()
@@ -18,7 +18,7 @@ export class CourseComment {
   @Column()
   userId:number;
 
-  @ManyToOne(type => User)
+  @ManyToOne(type => User,{onDelete: 'CASCADE' })
   user:User;
 
   @Column()
