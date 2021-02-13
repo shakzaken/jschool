@@ -2,7 +2,7 @@ import React from "react";
 import {Button,Form,Table,Dropdown} from "semantic-ui-react";
 import {inject,observer} from "mobx-react";
 import {RootStore} from "../../store/root-store";
-import {DegreeEditStore} from "../../store/degree-edit-store";
+import {DegreeEditStore} from "../../store/degrees/degree-edit-store";
 
 
 interface DegreeCoursesEditProps {

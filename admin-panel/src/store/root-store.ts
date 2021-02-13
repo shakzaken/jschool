@@ -1,10 +1,10 @@
 import {observable,action} from "mobx";
 import axios from "axios";
 import {MessageStore} from "./message-store";
-import {UsersStore} from "./users-store";
+import {UsersStore} from "./users/users-store";
 import {MenuOptions} from "../types/types";
-import {DegreesStore} from "./degrees-store";
-import {CoursesStore} from "./courses-store";
+import {DegreesStore} from "./degrees/degrees-store";
+import {CoursesStore} from "./courses/courses-store";
 import {AuthStore} from "./auth-store";
 
 

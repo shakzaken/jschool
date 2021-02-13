@@ -1,8 +1,7 @@
-import {Degree, DegreeEditMenuOptions,Course,SelectOption} from "../types/types";
+import {Degree, DegreeEditMenuOptions, Course, SelectOption, DegreeCourses} from "../../types/types";
 import {action, computed, observable} from "mobx";
-import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
-import {MessageStore, MessageType} from "./message-store";
-
+import {MessageStore, MessageType} from "../message-store";
+import {api} from "../../api/api";
 
 export class DegreeEditStore{
 
@@ -97,16 +96,14 @@ export class DegreeEditStore{
   async saveDegreeFiles(files:File[]){
 
     const formData: FormData = new FormData();
-    const config : AxiosRequestConfig = {
-      headers:{ 'content-type': 'multipart/form-data'}
-    };
+
     for(let i = 0 ; i< files.length ; i++){
       formData.append(`files`,files[i]);
     }
 
     try{
-      const result = await axios.post(`degrees/images/${this.degree.id}`,formData,config);
-      const imagesArray = result.data.map((imageData:any) => {
+      const degreeImages = await api.degrees.saveDegreeImages(this.degree.id,formData);
+      const imagesArray = degreeImages.map((imageData:any) => {
         return `data:image/png;base64,${imageData.image}`
       });
       this.setImagesSrc(imagesArray);
@@ -118,8 +115,9 @@ export class DegreeEditStore{
 
   async fetchDegreeImage(){
     const degreeId = this.degree && this.degree.id;
-    const result = await axios.get(`degrees/images/${degreeId}`);
-    const imagesArray = result.data.map((imageData:any) => {
+    const degreeImages = await api.degrees.getDegreeImages(degreeId);
+
+    const imagesArray = degreeImages.map((imageData:any) => {
       return `data:image/png;base64,${imageData.image}`
     });
     this.setImagesSrc(imagesArray);
@@ -134,7 +132,7 @@ export class DegreeEditStore{
       description: this.degree.description
     };
     try{
-      await axios.put("degrees",degree);
+      await api.degrees.updateDegree(degree);
       this.messageStore.displayMessage("Degree Updated successfully",MessageType.SUCCESS);
 
     }catch(err){
@@ -156,22 +154,19 @@ export class DegreeEditStore{
 
   async fetchDegreeCourses(){
     const degreeId = this.degree && this.degree.id;
-    const allCoursesReponse : AxiosResponse<any> = await axios.get("courses");
-    const selectedCoursesResponse : AxiosResponse<any> = await axios.get(`degrees/courses/${degreeId}`);
-    this.setCoursesAndSelectedCourses(allCoursesReponse.data,selectedCoursesResponse.data);
+    const allCourses = await api.courses.getAllCourses();
+    const selectedCourses = await api.degrees.getDegreeCourses(degreeId);
+    this.setCoursesAndSelectedCourses(allCourses,selectedCourses);
   }
 
-  async fetchAllCourses(){
-    const response : AxiosResponse<Course[]> = await axios.get(`courses`);
-    console.log(response);
-  }
+
 
   async saveDegreeCourses(event:any){
-    const data = {
+    const data  :DegreeCourses = {
       degreeId: this.degree.id,
       coursesIds: this.selectedCourses
     };
-    await axios.post("/degrees/courses",data);
+    await api.degrees.saveDegreeCourses(data);
     this.fetchDegreeCourses();
       
   }

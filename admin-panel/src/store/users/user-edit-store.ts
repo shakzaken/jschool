@@ -1,8 +1,8 @@
-import {Course, CourseEditMenuOptions, UserEditMenuOptions} from "../types/types";
+import {Course, CourseEditMenuOptions, UserEditMenuOptions} from "../../types/types";
 import {action, computed, observable} from "mobx";
 import axios, {AxiosRequestConfig} from "axios";
-import {MessageStore, MessageType} from "./message-store";
-import {User} from "../types/types";
+import {MessageStore, MessageType} from "../message-store";
+import {User} from "../../types/types";
 
 
 export class UserEditStore {

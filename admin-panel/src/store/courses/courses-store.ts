@@ -1,8 +1,8 @@
 import {action, observable} from "mobx";
-import {Course, CreateCourseDto} from "../types/types";
-import {MessageStore, MessageType} from "./message-store";
-import axios, {AxiosResponse} from "axios";
+import {Course, CreateCourseDto} from "../../types/types";
+import {MessageStore, MessageType} from "../message-store";
 import {CourseEditStore} from "./course-edit-store";
+import {api} from "../../api/api";
 
 export class CoursesStore{
 
@@ -53,8 +53,8 @@ export class CoursesStore{
 
   async fetchCourses(){
     try{
-      const response : AxiosResponse<Course[]> = await axios.get("courses");
-      this.setCourses(response.data);
+      const courses = await api.courses.getAllCourses();
+      this.setCourses(courses);
     }catch(err){
       console.error("Failed to fetch courses");
     }
@@ -67,7 +67,7 @@ export class CoursesStore{
         name: this.name,
         description: this.description
       };
-      await axios.post("courses",course);
+      await api.courses.createCourse(course);
       this.messageStore.displayMessage("Course Created Successfully",MessageType.SUCCESS);
     }catch(err){
       this.messageStore.displayMessage("Course Creation Failed",MessageType.ERROR);
@@ -76,7 +76,7 @@ export class CoursesStore{
 
   public async deleteCourse(course:Course){
     try{
-      await axios.delete(`courses/${course.id}`);
+      await api.courses.deleteCourse(course.id);
       this.removeCourse(course);
       this.messageStore.displayMessage(`Course deleted successfully`,MessageType.SUCCESS);
     }catch(err){

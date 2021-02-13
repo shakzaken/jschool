@@ -1,8 +1,8 @@
 import {action, observable} from "mobx";
 import {ViewModel} from "mmlpx";
 import axios from "axios";
-import {MessageStore, MessageType} from "./message-store";
-import {CreateUserDto, User} from "../types/types";
+import {MessageStore, MessageType} from "../message-store";
+import {CreateUserDto, User} from "../../types/types";
 import {UserEditStore} from "./user-edit-store";
 
 @ViewModel

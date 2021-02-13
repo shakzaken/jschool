@@ -1,7 +1,7 @@
-import {Course, CourseEditMenuOptions} from "../types/types";
+import {Course, CourseEditMenuOptions} from "../../types/types";
 import {action, computed, observable} from "mobx";
-import axios, {AxiosRequestConfig} from "axios";
-import {MessageStore, MessageType} from "./message-store";
+import {MessageStore, MessageType} from "../message-store";
+import {api} from "../../api/api";
 
 export class CourseEditStore {
 
@@ -68,16 +68,12 @@ export class CourseEditStore {
   async saveCourseFiles(files:File[]){
 
     const formData: FormData = new FormData();
-    const config : AxiosRequestConfig = {
-      headers:{ 'content-type': 'multipart/form-data'}
-    };
     for(let i = 0 ; i< files.length ; i++){
       formData.append(`files`,files[i]);
     }
 
     try{
-      const result = await axios.post(`courses/images/${this.course.id}`,formData,config);
-      const imageData = result.data;
+      const imageData = await api.courses.saveCourseImages(this.course.id,formData);
       this.setImageSrc(`data:image/png;base64,${imageData.image}`);
       this.messageStore.displayMessage("Course Images Saved successfully",MessageType.SUCCESS);
     }catch (err) {
@@ -87,8 +83,7 @@ export class CourseEditStore {
 
   async fetchCourseImage(){
     const courseId = this.course && this.course.id;
-    const result = await axios.get(`courses/images/${courseId}`);
-    const imageData = result.data;
+    const imageData = await api.courses.getCourseImages(courseId);
     this.setImageSrc(`data:image/png;base64,${imageData.image}`)
   }
 
@@ -101,7 +96,7 @@ export class CourseEditStore {
       description: this.course.description
     };
     try{
-      await axios.put("courses",course);
+      await api.courses.updateCourse(course);
       this.messageStore.displayMessage("Course Updated successfully",MessageType.SUCCESS);
 
     }catch(err){

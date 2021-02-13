@@ -1,8 +1,8 @@
-import {CreateDegreeDto, Degree} from "../types/types";
+import {CreateDegreeDto, Degree} from "../../types/types";
 import {action, observable} from "mobx";
-import {MessageStore, MessageType} from "./message-store";
-import axios, {AxiosResponse} from "axios";
+import {MessageStore, MessageType} from "../message-store";
 import {DegreeEditStore} from "./degree-edit-store";
+import {api} from "../../api/api";
 
 export class DegreesStore {
 
@@ -62,8 +62,8 @@ export class DegreesStore {
 
   async fetchDegrees(){
     try{
-      const result : AxiosResponse<Degree[]> = await axios.get("degrees");
-      this.setDegrees(result.data);
+      const degrees = await api.degrees.getAllDegrees();
+      this.setDegrees(degrees);
     }catch(err){
       console.error("Failed to fetch degrees list");
     }
@@ -77,7 +77,7 @@ export class DegreesStore {
       description: this.description
     };
     try{
-      await axios.post("degrees",degree);
+      await api.degrees.createDegree(degree);
       this.messageStore.displayMessage("Degree Created Successfully",MessageType.SUCCESS);
     }catch(err){
       this.messageStore.displayMessage("Degree Creation Failed",MessageType.ERROR);
@@ -86,7 +86,7 @@ export class DegreesStore {
 
   public async deleteDegree(degree: Degree){
     try{
-      await axios.delete(`degrees/${degree.id}`);
+      await api.degrees.deleteDegree(degree.id);
       this.removeDegree(degree);
       this.messageStore.displayMessage(`Degree ${degree.name} deleted successfully`,MessageType.SUCCESS);
 

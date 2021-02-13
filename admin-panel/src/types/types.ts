@@ -24,11 +24,30 @@ export interface Degree {
   description:string;
 }
 
+export interface DegreeImage {
+  id: number;
+  image:string;
+  degreeId: number;
+  degree: Degree;
+}
+
+export interface DegreeCourses{
+  degreeId:number;
+  coursesIds: string[];
+}
+
 
 export interface Course {
   id:number;
   name:string;
   description:string;
+}
+
+export interface CourseImage {
+  id: number;
+  image:string;
+  courseId: number;
+  course: Course;
 }
 
 
