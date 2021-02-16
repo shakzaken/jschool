@@ -15,7 +15,7 @@ export class UserImage{
   @Column()
   userId:number;
 
-  @ManyToOne(type => User)
+  @ManyToOne(type => User,{onDelete: 'CASCADE' })
   user:User;
 
 }

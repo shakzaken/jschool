@@ -36,12 +36,12 @@ export class UserEdit extends Component<UserEditProps> {
         <h2>{user.name}</h2>
         <Menu fluid widths={2}>
           <Menu.Item
-            name="Course Form"
+            name="User Form"
             onClick={event => this.usersEditStore.setMenuType(UserEditMenuOptions.EditUser)}
             active={this.usersEditStore.menuType === UserEditMenuOptions.EditUser}
           />
           <Menu.Item
-            name="Course Image"
+            name="User Image"
             onClick={event => this.usersEditStore.setMenuType(UserEditMenuOptions.EditImage)}
             active={this.usersEditStore.menuType === UserEditMenuOptions.EditImage}
           />

@@ -1,9 +1,8 @@
 import {Course, CourseEditMenuOptions, UserEditMenuOptions} from "../../types/types";
 import {action, computed, observable} from "mobx";
-import axios, {AxiosRequestConfig} from "axios";
 import {MessageStore, MessageType} from "../message-store";
 import {User} from "../../types/types";
-
+import {api} from "../../api/api";
 
 export class UserEditStore {
 
@@ -72,16 +71,13 @@ export class UserEditStore {
   async saveUserFiles(files:File[]){
 
     const formData: FormData = new FormData();
-    const config : AxiosRequestConfig = {
-      headers:{ 'content-type': 'multipart/form-data'}
-    };
+
     for(let i = 0 ; i< files.length ; i++){
       formData.append(`files`,files[i]);
     }
 
     try{
-      const result = await axios.post(`users/images/${this.user.id}`,formData,config);
-      const imageData = result.data;
+      const imageData = await api.users.saveUserImage(this.user.id,formData);
       this.setImageSrc(`data:image/png;base64,${imageData.image}`);
       this.messageStore.displayMessage("User Images Saved successfully",MessageType.SUCCESS);
     }catch (err) {
@@ -91,8 +87,8 @@ export class UserEditStore {
 
   async fetchUserImage(){
     const userId = this.user && this.user.id;
-    const result = await axios.get(`users/images/${userId}`);
-    const imageData = result.data[0];
+    const imagesData = await api.users.getUserImages(userId);
+    const imageData = imagesData[0];
     if(imageData){
       this.setImageSrc(`data:image/png;base64,${imageData.image}`);
     }
@@ -107,7 +103,7 @@ export class UserEditStore {
       email: this.user.email
     };
     try{
-      await axios.put("users",user);
+      await api.users.updateUser(user);
       this.messageStore.displayMessage("User Updated successfully",MessageType.SUCCESS);
 
     }catch(err){

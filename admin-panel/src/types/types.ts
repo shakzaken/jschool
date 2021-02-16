@@ -5,6 +5,14 @@ export interface User {
 
 }
 
+
+export interface UserImage {
+  id: number;
+  image:string;
+  userId: number;
+  user: User;
+}
+
 export enum MenuOptions {
   CreateCourse = "CreateCourse",
   CoursesList = "CoursesList",

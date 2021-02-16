@@ -1,9 +1,9 @@
 import {action, observable} from "mobx";
 import {ViewModel} from "mmlpx";
-import axios from "axios";
 import {MessageStore, MessageType} from "../message-store";
 import {CreateUserDto, User} from "../../types/types";
 import {UserEditStore} from "./user-edit-store";
+import {api} from "../../api/api";
 
 @ViewModel
 export class UsersStore {
@@ -99,25 +99,24 @@ export class UsersStore {
       this.messageStore.displayMessage("User Creation Failed",MessageType.ERROR);
       return;
     }
-    await axios.post("users",user)
-      .catch(() => {
-        this.messageStore.displayMessage("User Creation Failed",MessageType.ERROR);
-      });
-    this.messageStore.displayMessage("User Created Successfully",MessageType.SUCCESS);
-    this.clearForm();
-
+    try{
+      await api.users.createUser(user)
+      this.messageStore.displayMessage("User Created Successfully",MessageType.SUCCESS);
+      this.clearForm();
+    }catch (err){
+      this.messageStore.displayMessage("User Creation Failed",MessageType.ERROR);
+    }
 
   }
 
   async fetchUsers(){
-    const res = await axios.get(`users`);
-    const users = res.data;
+    const users = await api.users.getUsers();
     this.setUsers(users);
   }
 
   async deleteUser(user: User){
     try{
-      await axios.delete(`users/${user.id}`);
+      await api.users.deleteUser(user.id);
       // @ts-ignore
       this.removeUser(user);
       this.messageStore.displayMessage(`User ${user.name} deleted successfully`,MessageType.SUCCESS);

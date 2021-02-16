@@ -39,21 +39,6 @@ export class RootStore {
 
 
 
-
-  private login(){
-    const baseUrl = "http://localhost:3000/";
-    axios.defaults.baseURL = baseUrl;
-    const user = {
-      email:"shak@gmail.com",
-      password:"1234"
-    };
-    axios.post("auth/login",user)
-      .then(res => {
-        axios.defaults.headers.common['Authorization'] = res.data.token;
-      });
-  }
-
-
   @action.bound
   setLoading(loading: boolean){
     this.loading = loading;

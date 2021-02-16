@@ -1,10 +1,8 @@
 import {observable,action,computed} from "mobx";
 import {LoginDto, LoginResponse, User} from "../types/types";
-import axios, {AxiosResponse} from "axios";
 import {MessageStore} from "./message-store";
-import {History} from "history";
 import jwtDecode from "jwt-decode";
-
+import {api} from "../api/api";
 
 export class AuthStore {
 
@@ -76,8 +74,9 @@ export class AuthStore {
       email: this.email,
       password: this.password
     };
-    const res: AxiosResponse<LoginResponse> = await axios.post("auth/login",loginDto);
-    const token = res.data.token;
+    const response = await api.auth.login(loginDto);
+
+    const token = response.token;
     const decoded : any = jwtDecode(token);
 
     const user = {
@@ -88,7 +87,7 @@ export class AuthStore {
     this.setUser(user);
     this.setToken(token);
     this.updateLocalStorage(token);
-    axios.defaults.headers["Authorization"] = res.data.token;
+    api.setDefaultAuthHeaders(response.token);
   }
 
 
@@ -115,7 +114,7 @@ export class AuthStore {
     if(timeLeft > 0){
       this.setToken(token);
       this.setUser(user);
-      axios.defaults.headers["Authorization"] = token;
+      api.setDefaultAuthHeaders(token);
     }
 
   }
