@@ -1,6 +1,6 @@
 import {observable,computed,action} from "mobx";
-import axios, {AxiosResponse} from "axios";
 import {DegreeModel} from "../types";
+import {api} from "../api/apiService";
 
 export class HomePageStore {
 
@@ -17,9 +17,8 @@ export class HomePageStore {
   }
 
   async fetchDegrees(){
-    const res: AxiosResponse<DegreeModel[]> = await axios.get("degrees/images");
-    this.setDegrees(res.data);
-
+    const degrees : DegreeModel[] = await api.degrees.getDegrees();
+    this.setDegrees(degrees);
 
   }
 }

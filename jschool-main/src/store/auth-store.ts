@@ -1,8 +1,9 @@
 import {action, computed, observable} from "mobx";
 import {LoginResponse, UserModel} from "../types";
-import axios, {AxiosResponse} from "axios";
 import {MessageStore, MessageType} from "./message-store";
 import {History} from "history";
+import {api} from "../api/apiService";
+
 
 export class AuthStore {
 
@@ -29,7 +30,7 @@ export class AuthStore {
       const user = JSON.parse(localStorage.getItem("user"));
       this.setUser(user);
       this.setToken(token);
-      axios.defaults.headers["Authorization"] = token;
+      api.auth.setAuthHeader(token);
     }
   }
 
@@ -66,12 +67,12 @@ export class AuthStore {
       password: this.password
     };
     try{
-      const res : AxiosResponse<LoginResponse> = await axios.post("/auth/login",loginData);
-      this.setUser(res.data.user);
-      this.setToken(res.data.token);
-      axios.defaults.headers["Authorization"] = res.data.token;
-      localStorage.setItem("token",res.data.token);
-      localStorage.setItem("user",JSON.stringify(res.data.user));
+      const loginResponse :LoginResponse = await api.auth.login(loginData);
+      this.setUser(loginResponse.user);
+      this.setToken(loginResponse.token);
+      api.auth.setAuthHeader(loginResponse.token);
+      localStorage.setItem("token",loginResponse.token);
+      localStorage.setItem("user",JSON.stringify(loginResponse.user));
       this.messageStore.displayMessage("You are successfully logged in",MessageType.SUCCESS);
       history.push("/");
     }catch (err){

@@ -1,8 +1,7 @@
 import {observable, action, computed} from "mobx";
 import {CourseModel, DegreeComment, DegreeCommentDto, DegreeImage, DegreeModel} from "../types";
-import axios, {AxiosResponse} from "axios";
 import {AuthStore} from "./auth-store";
-
+import {api} from "../api/apiService";
 
 export class DegreePageStore {
 
@@ -75,13 +74,13 @@ export class DegreePageStore {
     }
 
     async fetchDegreeData(degreeId:number){
-        const degreeResponse : AxiosResponse<DegreeModel> = await axios.get(`degrees/${degreeId}`);
-        const degreeImage: AxiosResponse<DegreeImage[]> = await axios.get(`degrees/images/${degreeId}`);
-        const degreeComments : AxiosResponse<DegreeComment[]> = await axios.get(`degrees/comments/${degreeId}`);
-        const degreeCourses : AxiosResponse<CourseModel[]> = await axios.get(`degrees/courses/${degreeId}`);
 
-        const degreeData :DegreeModel = degreeResponse.data;
-        this.setDegreeFields(degreeData,degreeImage.data,degreeComments.data,degreeCourses.data);
+        const degreeData = await api.degrees.getDegreeData(degreeId);
+        const degreeImage = await api.degrees.getDegreeImages(degreeId);
+        const degreeComments = await api.degrees.getDegreeComments(degreeId);
+        const degreeCourses = await api.degrees.getDegreeCourses(degreeId);
+
+        this.setDegreeFields(degreeData,degreeImage,degreeComments,degreeCourses);
     }
 
     async saveDegreeComment(){
@@ -90,13 +89,12 @@ export class DegreePageStore {
             comment: this.currentComment,
             userId: this.authStore.user.id
         }
-        const result : AxiosResponse<DegreeComment> = await axios.post("degrees/comments",commentDto)
-        const comment: DegreeComment = result.data;
+        const comment: DegreeComment = await api.degrees.saveDegreeComment(commentDto);
         this.addComment(comment);
     }
 
     async onCommentDelete(commentId:number){
-        await axios.delete(`degrees/comments/${commentId}`);
+        await api.degrees.deleteDegreeComment(commentId);
         const comment :DegreeComment = this.comments.find(comment => comment.id === commentId);
         //@ts-ignore;
         this.comments.remove(comment);

@@ -1,7 +1,7 @@
 import {AuthStore} from "./auth-store";
 import {action, computed, observable} from "mobx";
 import {CourseComment, CourseCommentDto, CourseImage, CourseModel} from "../types";
-import axios, {AxiosResponse} from "axios";
+import {api} from "../api/apiService";
 
 export class CoursePageStore {
 
@@ -89,25 +89,27 @@ export class CoursePageStore {
     }
 
     async fetchCourseData(){
-
-        const response : AxiosResponse<CourseModel> = await axios.get(`/courses/${this.courseId}`);
-        this.setCourse(response.data);
+        const courseData = await api.courses.getCourse(this.courseId);
+        this.setCourse(courseData);
     }
 
     async fetchCourseComments(){
-        const response : AxiosResponse<CourseComment[]> = await axios.get(`/courses/comments/${this.courseId}`);
-        this.setComments(response.data);
+        const courseComments = await api.courses.getCourseComments(this.courseId);
+        this.setComments(courseComments);
     }
 
     async fetchCourseImages(){
-        const response : AxiosResponse<CourseImage> = await axios.get(`/courses/images/${this.courseId}`);
-        this.setImage(response.data);
+        const courseImages = await api.courses.getCourseImages(this.courseId);
+        this.setImage(courseImages);
     }
 
     async deleteCourseComment(commentId:number){
-        const response : AxiosResponse<any> = await axios.delete(`/courses/comments/${commentId}`);
-        this.fetchCourseComments()
-            .catch(err => console.log("failed to fetch course comments"));
+        try{
+            await api.courses.deleteCourseComment(commentId);
+            this.fetchCourseComments()
+        }catch (err){
+            console.log("failed to fetch course comments")
+        }
     }
 
     async createCourseComment(){
@@ -116,7 +118,7 @@ export class CoursePageStore {
             userId: this.authStore.user.id,
             courseId: this.course.id
         };
-        await axios.post("/courses/comments",commentDto);
+        await api.courses.createCourseComment(commentDto);
         this.setFormComment("");
         this.fetchCourseComments()
             .catch(err => console.log("failed to fetch course comments"));
